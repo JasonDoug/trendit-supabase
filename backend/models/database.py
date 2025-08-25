@@ -7,8 +7,30 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Database configuration
-# NOTE: SQLite is for development and testing only - use PostgreSQL for production
+# Supports SQLite (dev/testing), PostgreSQL, and Supabase
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./trendit.db")
+USE_SUPABASE = os.getenv("USE_SUPABASE", "false").lower() == "true"
+
+# Initialize Supabase client if enabled
+supabase_client = None
+if USE_SUPABASE:
+    try:
+        from supabase import create_client
+        SUPABASE_URL = os.getenv("SUPABASE_URL")
+        SUPABASE_KEY = os.getenv("SUPABASE_ANON_KEY")
+        
+        if SUPABASE_URL and SUPABASE_KEY:
+            supabase_client = create_client(SUPABASE_URL, SUPABASE_KEY)
+            # For Supabase, we still use the PostgreSQL connection string for SQLAlchemy
+            # but can also use the Supabase client for additional features
+            if not DATABASE_URL or DATABASE_URL.startswith("sqlite"):
+                # Construct PostgreSQL URL from Supabase credentials if needed
+                SUPABASE_DB_URL = os.getenv("SUPABASE_DB_URL")
+                if SUPABASE_DB_URL:
+                    DATABASE_URL = SUPABASE_DB_URL
+    except ImportError:
+        print("Warning: Supabase dependencies not installed. Install with: pip install supabase")
+        USE_SUPABASE = False
 
 # SQLite requires check_same_thread=False for FastAPI
 if DATABASE_URL.startswith("sqlite"):

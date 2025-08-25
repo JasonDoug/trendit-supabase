@@ -5,7 +5,7 @@ import logging
 import uvicorn
 from contextlib import asynccontextmanager
 
-from models.database import engine, Base
+from models.database import engine, Base, USE_SUPABASE, supabase_client
 from api.scenarios import router as scenarios_router
 from api.query import router as query_router
 from api.collect import router as collect_router
@@ -30,6 +30,12 @@ async def lifespan(app: FastAPI):
     """Application lifespan events"""
     # Startup
     logger.info("Starting Trendit API server...")
+    
+    # Log database configuration
+    if USE_SUPABASE and supabase_client:
+        logger.info("Using Supabase as database backend")
+    else:
+        logger.info("Using standard PostgreSQL/SQLite database")
     
     # Create database tables
     Base.metadata.create_all(bind=engine)
@@ -122,9 +128,14 @@ async def health_check():
             os.getenv("REDDIT_CLIENT_SECRET")
         ])
         
+        # Check Supabase status
+        supabase_status = "enabled" if USE_SUPABASE and supabase_client else "disabled"
+        
         return {
             "status": "healthy",
             "database": "connected",
+            "database_type": "supabase" if USE_SUPABASE else "postgresql/sqlite",
+            "supabase": supabase_status,
             "reddit_api": "configured" if reddit_configured else "not_configured",
             "timestamp": "2024-01-01T00:00:00Z"
         }

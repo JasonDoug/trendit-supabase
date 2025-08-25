@@ -36,6 +36,10 @@ pyarrow==18.1.0
 pytest==8.3.4
 httpx==0.28.1
 
+# Supabase
+supabase==2.9.1
+postgrest==0.17.2
+
 # Utilities
 rich==13.9.4
 click==8.1.8

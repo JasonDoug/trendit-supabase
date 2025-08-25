@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Query as FastAPIQuery
+from fastapi import APIRouter, HTTPException, Query as FastAPIQuery, Form
 from typing import List, Optional, Dict, Any
 from datetime import datetime, date
 from pydantic import BaseModel, Field
@@ -454,20 +454,48 @@ async def query_users(request: UserQueryRequest):
         logger.error(f"User query failed: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Form-based POST endpoint (easier to use in Swagger UI)
+@router.post("/posts/form", response_model=QueryResponse)
+async def query_posts_form(
+    subreddits: str = Form(..., description="Comma-separated subreddit names (e.g. python,MachineLearning)"),
+    keywords: Optional[str] = Form(None, description="Comma-separated keywords (e.g. AI,neural networks)"),
+    min_score: Optional[int] = Form(None, description="Minimum post score"),
+    limit: int = Form(100, description="Maximum results"),
+    sort_type: str = Form("hot", description="Sort type: hot, new, top, rising, controversial"),
+    time_filter: str = Form("week", description="Time filter: hour, day, week, month, year, all")
+):
+    """
+    Query posts using form parameters (easier to use in Swagger UI than JSON)
+    """
+    # Convert form data to request object
+    request = PostQueryRequest(
+        subreddits=subreddits.split(",") if subreddits else [],
+        keywords=keywords.split(",") if keywords else None,
+        min_score=min_score,
+        limit=limit,
+        sort_type=sort_type,
+        time_filter=time_filter
+    )
+    return await query_posts(request)
+
 # GET endpoints for simple queries
 @router.get("/posts/simple", response_model=QueryResponse)
 async def simple_post_query(
     subreddits: str = FastAPIQuery(..., description="Comma-separated subreddit names"),
     keywords: Optional[str] = FastAPIQuery(None, description="Comma-separated keywords"),
     min_score: Optional[int] = FastAPIQuery(None, description="Minimum score"),
-    limit: int = FastAPIQuery(50, description="Maximum results")
+    limit: int = FastAPIQuery(50, description="Maximum results"),
+    sort_type: str = FastAPIQuery("hot", description="Sort type: hot, new, top, rising, controversial"),
+    time_filter: str = FastAPIQuery("week", description="Time filter: hour, day, week, month, year, all")
 ):
     """Simple post query via GET parameters"""
     request = PostQueryRequest(
         subreddits=subreddits.split(','),
         keywords=keywords.split(',') if keywords else None,
         min_score=min_score,
-        limit=limit
+        limit=limit,
+        sort_type=sort_type,
+        time_filter=time_filter
     )
     return await query_posts(request)
 

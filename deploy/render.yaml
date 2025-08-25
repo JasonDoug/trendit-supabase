@@ -1,0 +1,49 @@
+services:
+  - type: web
+    name: trendit-api
+    runtime: python3
+    plan: starter  # Free tier available
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    
+    # Environment variables
+    envVars:
+      - key: REDDIT_CLIENT_ID
+        sync: false  # Set in Render dashboard
+      - key: REDDIT_CLIENT_SECRET
+        sync: false  # Set in Render dashboard  
+      - key: REDDIT_USER_AGENT
+        value: "Trendit/1.0 Production"
+      - key: OPENROUTER_API_KEY
+        sync: false  # Set in Render dashboard
+      - key: USE_SUPABASE
+        value: "true"
+      - key: SUPABASE_URL
+        sync: false  # Set in Render dashboard
+      - key: SUPABASE_ANON_KEY
+        sync: false  # Set in Render dashboard
+      - key: SUPABASE_DB_URL
+        sync: false  # Set in Render dashboard
+      - key: HOST
+        value: "0.0.0.0"
+      - key: PORT
+        fromService:
+          type: web
+          name: trendit-api
+          property: port
+      - key: RELOAD
+        value: "false"
+    
+    # Auto-deploy from main branch
+    autoDeploy: true
+    
+    # Resource limits
+    disk:
+      name: trendit-data
+      mountPath: /data
+      sizeGB: 1
+    
+    # Domains (optional - configure custom domain)
+    # domains:
+    #   - trendit-api.yourdomain.com

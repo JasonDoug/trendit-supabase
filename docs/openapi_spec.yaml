@@ -1,0 +1,2421 @@
+openapi: 3.1.0
+info:
+  title: Trendit API
+  description: Comprehensive Reddit Data Collection and Analysis Platform
+  version: 1.0.0
+paths:
+  /api/scenarios/1/subreddit-keyword-search:
+    get:
+      tags:
+      - scenarios
+      summary: Scenario 1 Subreddit Keyword Search
+      description: 'SCENARIO 1: Get the 10 most popular posts in r/python about ''poetry''
+        from date X to Y
+
+
+        Example: GET /api/scenarios/1/subreddit-keyword-search?subreddit=python&keywords=poetry,package&date_from=2024-01-01&date_to=2024-12-31&limit=10&sort_by=score'
+      operationId: scenario_1_subreddit_keyword_search_api_scenarios_1_subreddit_keyword_search_get
+      parameters:
+      - name: subreddit
+        in: query
+        required: true
+        schema:
+          type: string
+          description: Subreddit name (e.g., 'python')
+          title: Subreddit
+        description: Subreddit name (e.g., 'python')
+      - name: keywords
+        in: query
+        required: true
+        schema:
+          type: string
+          description: Comma-separated keywords (e.g., 'poetry,package')
+          title: Keywords
+        description: Comma-separated keywords (e.g., 'poetry,package')
+      - name: date_from
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+          description: Start date (YYYY-MM-DD)
+          title: Date From
+        description: Start date (YYYY-MM-DD)
+      - name: date_to
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+          description: End date (YYYY-MM-DD)
+          title: Date To
+        description: End date (YYYY-MM-DD)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Number of results to return
+          default: 10
+          title: Limit
+        description: Number of results to return
+      - name: sort_by
+        in: query
+        required: false
+        schema:
+          type: string
+          description: 'Sort by: score, comments, date'
+          default: score
+          title: Sort By
+        description: 'Sort by: score, comments, date'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/scenarios/2/trending-multi-subreddits:
+    get:
+      tags:
+      - scenarios
+      summary: Scenario 2 Trending Multi Subreddits
+      description: 'SCENARIO 2: Trending posts in r/claudecode, r/vibecoding, and
+        r/aiagent for today
+
+
+        Example: GET /api/scenarios/2/trending-multi-subreddits?subreddits=claudecode,vibecoding,aiagent&timeframe=day&limit=10'
+      operationId: scenario_2_trending_multi_subreddits_api_scenarios_2_trending_multi_subreddits_get
+      parameters:
+      - name: subreddits
+        in: query
+        required: true
+        schema:
+          type: string
+          description: Comma-separated subreddit names (e.g., 'claudecode,vibecoding,aiagent')
+          title: Subreddits
+        description: Comma-separated subreddit names (e.g., 'claudecode,vibecoding,aiagent')
+      - name: timeframe
+        in: query
+        required: false
+        schema:
+          type: string
+          description: 'Timeframe: hour, day, week'
+          default: day
+          title: Timeframe
+        description: 'Timeframe: hour, day, week'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Number of trending posts to return
+          default: 10
+          title: Limit
+        description: Number of trending posts to return
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/scenarios/3/top-posts-all:
+    get:
+      tags:
+      - scenarios
+      summary: Scenario 3 Top Posts All
+      description: 'SCENARIO 3: Top 10 hot posts in r/all for this week
+
+
+        Example: GET /api/scenarios/3/top-posts-all?sort_type=hot&time_filter=week&limit=10'
+      operationId: scenario_3_top_posts_all_api_scenarios_3_top_posts_all_get
+      parameters:
+      - name: sort_type
+        in: query
+        required: false
+        schema:
+          type: string
+          description: 'Sort type: hot, top, new, rising, controversial'
+          default: hot
+          title: Sort Type
+        description: 'Sort type: hot, top, new, rising, controversial'
+      - name: time_filter
+        in: query
+        required: false
+        schema:
+          type: string
+          description: 'Time filter: hour, day, week, month, year, all'
+          default: week
+          title: Time Filter
+        description: 'Time filter: hour, day, week, month, year, all'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Number of posts to return
+          default: 10
+          title: Limit
+        description: Number of posts to return
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/scenarios/4/most-popular-today:
+    get:
+      tags:
+      - scenarios
+      summary: Scenario 4 Most Popular Today
+      description: 'SCENARIO 4: Most popular post in r/openai today
+
+
+        Example: GET /api/scenarios/4/most-popular-today?subreddit=openai&metric=score'
+      operationId: scenario_4_most_popular_today_api_scenarios_4_most_popular_today_get
+      parameters:
+      - name: subreddit
+        in: query
+        required: true
+        schema:
+          type: string
+          description: Subreddit name (e.g., 'openai')
+          title: Subreddit
+        description: Subreddit name (e.g., 'openai')
+      - name: metric
+        in: query
+        required: false
+        schema:
+          type: string
+          description: 'Popularity metric: score, comments, upvote_ratio'
+          default: score
+          title: Metric
+        description: 'Popularity metric: score, comments, upvote_ratio'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/scenarios/comments/top-by-criteria:
+    get:
+      tags:
+      - scenarios
+      summary: Get Top Comments By Criteria
+      description: 'Get top comments based on various criteria
+
+
+        Examples:
+
+        - Top comments in r/python about ''django'': GET /comments/top-by-criteria?subreddit=python&keywords=django&limit=10
+
+        - Top comments on specific post: GET /comments/top-by-criteria?post_id=abc123&limit=10'
+      operationId: get_top_comments_by_criteria_api_scenarios_comments_top_by_criteria_get
+      parameters:
+      - name: subreddit
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Specific subreddit to search
+          title: Subreddit
+        description: Specific subreddit to search
+      - name: post_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Specific post ID to get comments from
+          title: Post Id
+        description: Specific post ID to get comments from
+      - name: keywords
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Comma-separated keywords to search for
+          title: Keywords
+        description: Comma-separated keywords to search for
+      - name: days_back
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Days to look back
+          default: 7
+          title: Days Back
+        description: Days to look back
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Number of comments to return
+          default: 10
+          title: Limit
+        description: Number of comments to return
+      - name: sort_by
+        in: query
+        required: false
+        schema:
+          type: string
+          description: 'Sort by: score, date, length'
+          default: score
+          title: Sort By
+        description: 'Sort by: score, date, length'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/scenarios/users/top-by-activity:
+    get:
+      tags:
+      - scenarios
+      summary: Get Top Users By Activity
+      description: 'Get most active/popular users based on various metrics
+
+
+        Examples:
+
+        - Most active users in r/python: GET /users/top-by-activity?subreddits=python&metric=post_count&limit=10
+
+        - Highest scoring users across multiple subs: GET /users/top-by-activity?subreddits=python,javascript,golang&metric=total_score'
+      operationId: get_top_users_by_activity_api_scenarios_users_top_by_activity_get
+      parameters:
+      - name: subreddits
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Comma-separated subreddit names to analyze
+          title: Subreddits
+        description: Comma-separated subreddit names to analyze
+      - name: days_back
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Days to analyze
+          default: 7
+          title: Days Back
+        description: Days to analyze
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Number of users to return
+          default: 10
+          title: Limit
+        description: Number of users to return
+      - name: metric
+        in: query
+        required: false
+        schema:
+          type: string
+          description: 'Ranking metric: total_score, post_count, comment_count'
+          default: total_score
+          title: Metric
+        description: 'Ranking metric: total_score, post_count, comment_count'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/scenarios/examples:
+    get:
+      tags:
+      - scenarios
+      summary: Get Scenario Examples
+      description: Get example API calls for all scenarios
+      operationId: get_scenario_examples_api_scenarios_examples_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Get Scenario Examples Api Scenarios Examples Get
+  /api/query/posts:
+    post:
+      tags:
+      - query
+      summary: Query Posts
+      description: "Advanced post query with comprehensive filtering options.\n\n\
+        Supports complex queries like:\n- Posts from multiple subreddits with keyword\
+        \ filtering\n- Score and engagement thresholds  \n- Author inclusion/exclusion\n\
+        - Content type filtering\n- Date range filtering"
+      operationId: query_posts_api_query_posts_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api__query__PostQueryRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/query/comments:
+    post:
+      tags:
+      - query
+      summary: Query Comments
+      description: 'Advanced comment query with comprehensive filtering options.
+
+
+        Supports queries like:
+
+        - Comments from specific posts or subreddits
+
+        - Score and depth filtering
+
+        - Author filtering
+
+        - Content filtering'
+      operationId: query_comments_api_query_comments_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api__query__CommentQueryRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/query/users:
+    post:
+      tags:
+      - query
+      summary: Query Users
+      description: 'Advanced user analysis and filtering.
+
+
+        Supports queries like:
+
+        - User profiles by username
+
+        - Active users in subreddits
+
+        - Users by karma thresholds
+
+        - Account age filtering'
+      operationId: query_users_api_query_users_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserQueryRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/query/posts/form:
+    post:
+      tags:
+      - query
+      summary: Query Posts Form
+      description: Query posts using form parameters (easier to use in Swagger UI
+        than JSON)
+      operationId: query_posts_form_api_query_posts_form_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_query_posts_form_api_query_posts_form_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/query/posts/simple:
+    get:
+      tags:
+      - query
+      summary: Simple Post Query
+      description: Simple post query via GET parameters
+      operationId: simple_post_query_api_query_posts_simple_get
+      parameters:
+      - name: subreddits
+        in: query
+        required: true
+        schema:
+          type: string
+          description: Comma-separated subreddit names
+          title: Subreddits
+        description: Comma-separated subreddit names
+      - name: keywords
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Comma-separated keywords
+          title: Keywords
+        description: Comma-separated keywords
+      - name: min_score
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Minimum score
+          title: Min Score
+        description: Minimum score
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Maximum results
+          default: 50
+          title: Limit
+        description: Maximum results
+      - name: sort_type
+        in: query
+        required: false
+        schema:
+          type: string
+          description: 'Sort type: hot, new, top, rising, controversial'
+          default: hot
+          title: Sort Type
+        description: 'Sort type: hot, new, top, rising, controversial'
+      - name: time_filter
+        in: query
+        required: false
+        schema:
+          type: string
+          description: 'Time filter: hour, day, week, month, year, all'
+          default: week
+          title: Time Filter
+        description: 'Time filter: hour, day, week, month, year, all'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/query/examples:
+    get:
+      tags:
+      - query
+      summary: Query Examples
+      description: Get example queries for the Query API
+      operationId: query_examples_api_query_examples_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/collect/jobs:
+    post:
+      tags:
+      - collection
+      summary: Create Collection Job
+      description: 'Create a new persistent collection job
+
+
+        This endpoint creates a collection job that will run in the background
+
+        and store all collected data in the database for later analysis.'
+      operationId: create_collection_job_api_collect_jobs_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionJobRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionJobResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - collection
+      summary: List Collection Jobs
+      description: List collection jobs with optional filtering
+      operationId: list_collection_jobs_api_collect_jobs_get
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/JobStatus'
+          - type: 'null'
+          title: Status
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          title: Page
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+          title: Per Page
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionJobListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/collect/jobs/{job_id}:
+    get:
+      tags:
+      - collection
+      summary: Get Collection Job
+      description: Get detailed information about a specific collection job
+      operationId: get_collection_job_api_collect_jobs__job_id__get
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionJobResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - collection
+      summary: Delete Collection Job
+      description: 'Delete a collection job and all associated data
+
+
+        WARNING: This will permanently delete all collected posts, comments, and analytics'
+      operationId: delete_collection_job_api_collect_jobs__job_id__delete
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/collect/jobs/{job_id}/status:
+    get:
+      tags:
+      - collection
+      summary: Get Collection Job Status
+      description: Get quick status update for a collection job
+      operationId: get_collection_job_status_api_collect_jobs__job_id__status_get
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionJobStatusResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/collect/jobs/{job_id}/cancel:
+    post:
+      tags:
+      - collection
+      summary: Cancel Collection Job
+      description: Cancel a running collection job
+      operationId: cancel_collection_job_api_collect_jobs__job_id__cancel_post
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/data/posts:
+    post:
+      tags:
+      - data
+      summary: Query Posts
+      description: 'Query stored Reddit posts with advanced filtering
+
+
+        Search and filter posts collected by previous collection jobs
+
+        with comprehensive filtering options for content, engagement,
+
+        dates, authors, and more.'
+      operationId: query_posts_api_data_posts_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api__data__PostQueryRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataQueryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/data/comments:
+    post:
+      tags:
+      - data
+      summary: Query Comments
+      description: 'Query stored Reddit comments with advanced filtering
+
+
+        Search and filter comments collected by previous collection jobs
+
+        with options for thread depth, scores, authors, and content filtering.'
+      operationId: query_comments_api_data_comments_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api__data__CommentQueryRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataQueryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/data/analytics/{job_id}:
+    get:
+      tags:
+      - data
+      summary: Get Job Analytics
+      description: 'Get analytics for a specific collection job
+
+
+        Provides comprehensive analytics including engagement metrics,
+
+        content distribution, top posts, and subreddit breakdowns.'
+      operationId: get_job_analytics_api_data_analytics__job_id__get
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostAnalyticsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/data/summary:
+    get:
+      tags:
+      - data
+      summary: Get Data Summary
+      description: 'Get overall summary of stored data
+
+
+        Provides high-level statistics about all collected data
+
+        including job counts, data volumes, and date ranges.'
+      operationId: get_data_summary_api_data_summary_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Get Data Summary Api Data Summary Get
+  /api/data/posts/recent:
+    get:
+      tags:
+      - data
+      summary: Get Recent Posts
+      description: Get recently collected posts with optional filtering
+      operationId: get_recent_posts_api_data_posts_recent_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          default: 20
+          title: Limit
+      - name: subreddit
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Subreddit
+      - name: min_score
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Score
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/data/posts/top:
+    get:
+      tags:
+      - data
+      summary: Get Top Posts
+      description: Get top scoring posts with optional filtering
+      operationId: get_top_posts_api_data_posts_top_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          default: 20
+          title: Limit
+      - name: subreddit
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Subreddit
+      - name: timeframe_hours
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Last N hours
+          title: Timeframe Hours
+        description: Last N hours
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/export/posts/{format}:
+    post:
+      tags:
+      - export
+      summary: Export Posts
+      description: 'Export posts in specified format (csv, json, jsonl, parquet)
+
+
+        Uses the same filtering options as the Data API posts query
+
+        but returns the data in the requested export format.'
+      operationId: export_posts_api_export_posts__format__post
+      parameters:
+      - name: format
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Format
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api__data__PostQueryRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/export/comments/{format}:
+    post:
+      tags:
+      - export
+      summary: Export Comments
+      description: 'Export comments in specified format (csv, json, jsonl, parquet)
+
+
+        Uses the same filtering options as the Data API comments query
+
+        but returns the data in the requested export format.'
+      operationId: export_comments_api_export_comments__format__post
+      parameters:
+      - name: format
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Format
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api__data__CommentQueryRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/export/job/{job_id}/{format}:
+    get:
+      tags:
+      - export
+      summary: Export Job Data
+      description: 'Export all data from a specific collection job
+
+
+        Exports posts and optionally comments from a completed collection job
+
+        in the specified format.'
+      operationId: export_job_data_api_export_job__job_id___format__get
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Id
+      - name: format
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Format
+      - name: include_comments
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Include Comments
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/export/formats:
+    get:
+      tags:
+      - export
+      summary: Get Supported Formats
+      description: Get list of supported export formats and their descriptions
+      operationId: get_supported_formats_api_export_formats_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/sentiment/status:
+    get:
+      tags:
+      - sentiment
+      summary: Get Sentiment Analysis Status
+      description: Get sentiment analysis service status
+      operationId: get_sentiment_analysis_status_api_sentiment_status_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/sentiment/analyze:
+    post:
+      tags:
+      - sentiment
+      summary: Analyze Text Sentiment
+      description: Analyze sentiment of a single text
+      operationId: analyze_text_sentiment_api_sentiment_analyze_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SentimentAnalysisRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SentimentAnalysisResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/sentiment/analyze-batch:
+    post:
+      tags:
+      - sentiment
+      summary: Analyze Batch Sentiment
+      description: Analyze sentiment of multiple texts in batch
+      operationId: analyze_batch_sentiment_api_sentiment_analyze_batch_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchSentimentAnalysisRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchSentimentAnalysisResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/sentiment/test:
+    get:
+      tags:
+      - sentiment
+      summary: Test Sentiment Analysis
+      description: Test sentiment analysis with sample texts
+      operationId: test_sentiment_analysis_api_sentiment_test_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /:
+    get:
+      summary: Root
+      description: Root endpoint with API information
+      operationId: root__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /health:
+    get:
+      summary: Health Check
+      description: Health check endpoint
+      operationId: health_check_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+components:
+  schemas:
+    BatchSentimentAnalysisRequest:
+      properties:
+        texts:
+          items:
+            type: string
+          type: array
+          title: Texts
+      type: object
+      required:
+      - texts
+      title: BatchSentimentAnalysisRequest
+    BatchSentimentAnalysisResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/SentimentAnalysisResponse'
+          type: array
+          title: Results
+        stats:
+          additionalProperties: true
+          type: object
+          title: Stats
+        total_time_ms:
+          type: number
+          title: Total Time Ms
+      type: object
+      required:
+      - results
+      - stats
+      - total_time_ms
+      title: BatchSentimentAnalysisResponse
+    Body_query_posts_form_api_query_posts_form_post:
+      properties:
+        subreddits:
+          type: string
+          title: Subreddits
+          description: Comma-separated subreddit names (e.g. python,MachineLearning)
+        keywords:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Keywords
+          description: Comma-separated keywords (e.g. AI,neural networks)
+        min_score:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Score
+          description: Minimum post score
+        limit:
+          type: integer
+          title: Limit
+          description: Maximum results
+          default: 100
+        sort_type:
+          type: string
+          title: Sort Type
+          description: 'Sort type: hot, new, top, rising, controversial'
+          default: hot
+        time_filter:
+          type: string
+          title: Time Filter
+          description: 'Time filter: hour, day, week, month, year, all'
+          default: week
+      type: object
+      required:
+      - subreddits
+      title: Body_query_posts_form_api_query_posts_form_post
+    CollectionJobListResponse:
+      properties:
+        jobs:
+          items:
+            $ref: '#/components/schemas/CollectionJobResponse'
+          type: array
+          title: Jobs
+        total:
+          type: integer
+          title: Total
+        page:
+          type: integer
+          title: Page
+        per_page:
+          type: integer
+          title: Per Page
+      type: object
+      required:
+      - jobs
+      - total
+      - page
+      - per_page
+      title: CollectionJobListResponse
+      description: Response for listing collection jobs
+    CollectionJobRequest:
+      properties:
+        subreddits:
+          items:
+            type: string
+          type: array
+          title: Subreddits
+          description: List of subreddit names
+        sort_types:
+          items:
+            $ref: '#/components/schemas/SortType'
+          type: array
+          title: Sort Types
+          description: Sort types to use
+          default:
+          - hot
+        time_filters:
+          items:
+            $ref: '#/components/schemas/TimeFilter'
+          type: array
+          title: Time Filters
+          description: Time filters to apply
+          default:
+          - week
+        post_limit:
+          type: integer
+          maximum: 10000.0
+          minimum: 1.0
+          title: Post Limit
+          description: Maximum posts to collect
+          default: 100
+        comment_limit:
+          type: integer
+          maximum: 1000.0
+          minimum: 0.0
+          title: Comment Limit
+          description: Maximum comments per post
+          default: 50
+        max_comment_depth:
+          type: integer
+          maximum: 10.0
+          minimum: 0.0
+          title: Max Comment Depth
+          description: Maximum comment thread depth
+          default: 3
+        keywords:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Keywords
+          description: Search keywords
+        min_score:
+          type: integer
+          title: Min Score
+          description: Minimum post score
+          default: 0
+        min_upvote_ratio:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Min Upvote Ratio
+          description: Minimum upvote ratio
+          default: 0.0
+        date_from:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Date From
+          description: Start date filter
+        date_to:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Date To
+          description: End date filter
+        exclude_nsfw:
+          type: boolean
+          title: Exclude Nsfw
+          description: Exclude NSFW content
+          default: true
+        anonymize_users:
+          type: boolean
+          title: Anonymize Users
+          description: Anonymize user information
+          default: true
+      type: object
+      required:
+      - subreddits
+      title: CollectionJobRequest
+      description: Request model for creating a new collection job
+    CollectionJobResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        job_id:
+          type: string
+          title: Job Id
+        status:
+          $ref: '#/components/schemas/JobStatus'
+        progress:
+          type: integer
+          title: Progress
+        total_expected:
+          type: integer
+          title: Total Expected
+        collected_posts:
+          type: integer
+          title: Collected Posts
+        collected_comments:
+          type: integer
+          title: Collected Comments
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        started_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Started At
+        completed_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Completed At
+        subreddits:
+          items:
+            type: string
+          type: array
+          title: Subreddits
+        post_limit:
+          type: integer
+          title: Post Limit
+      type: object
+      required:
+      - id
+      - job_id
+      - status
+      - progress
+      - total_expected
+      - collected_posts
+      - collected_comments
+      - error_message
+      - created_at
+      - started_at
+      - completed_at
+      - subreddits
+      - post_limit
+      title: CollectionJobResponse
+      description: Response model for collection job information
+    CollectionJobStatusResponse:
+      properties:
+        job_id:
+          type: string
+          title: Job Id
+        status:
+          $ref: '#/components/schemas/JobStatus'
+        progress:
+          type: integer
+          title: Progress
+        collected_posts:
+          type: integer
+          title: Collected Posts
+        collected_comments:
+          type: integer
+          title: Collected Comments
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+      type: object
+      required:
+      - job_id
+      - status
+      - progress
+      - collected_posts
+      - collected_comments
+      - error_message
+      title: CollectionJobStatusResponse
+      description: Simplified response for job status checks
+    DataQueryResponse:
+      properties:
+        query_type:
+          type: string
+          title: Query Type
+        description:
+          type: string
+          title: Description
+        results:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Results
+        total_count:
+          type: integer
+          title: Total Count
+        returned_count:
+          type: integer
+          title: Returned Count
+        execution_time_ms:
+          type: number
+          title: Execution Time Ms
+      type: object
+      required:
+      - query_type
+      - description
+      - results
+      - total_count
+      - returned_count
+      - execution_time_ms
+      title: DataQueryResponse
+      description: Response model for data queries
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    JobStatus:
+      type: string
+      enum:
+      - pending
+      - running
+      - completed
+      - failed
+      - cancelled
+      title: JobStatus
+    PostAnalyticsResponse:
+      properties:
+        total_posts:
+          type: integer
+          title: Total Posts
+        unique_subreddits:
+          type: integer
+          title: Unique Subreddits
+        unique_authors:
+          type: integer
+          title: Unique Authors
+        date_range:
+          additionalProperties:
+            anyOf:
+            - type: string
+            - type: 'null'
+          type: object
+          title: Date Range
+        score_stats:
+          additionalProperties:
+            type: number
+          type: object
+          title: Score Stats
+        engagement_stats:
+          additionalProperties:
+            type: number
+          type: object
+          title: Engagement Stats
+        content_distribution:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Content Distribution
+        top_posts:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Top Posts
+        subreddit_breakdown:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Subreddit Breakdown
+      type: object
+      required:
+      - total_posts
+      - unique_subreddits
+      - unique_authors
+      - date_range
+      - score_stats
+      - engagement_stats
+      - content_distribution
+      - top_posts
+      - subreddit_breakdown
+      title: PostAnalyticsResponse
+      description: Response model for post analytics
+    QueryResponse:
+      properties:
+        query_type:
+          type: string
+          title: Query Type
+        parameters:
+          additionalProperties: true
+          type: object
+          title: Parameters
+        results:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Results
+        count:
+          type: integer
+          title: Count
+        execution_time_ms:
+          type: number
+          title: Execution Time Ms
+        reddit_api_calls:
+          type: integer
+          title: Reddit Api Calls
+        filters_applied:
+          items:
+            type: string
+          type: array
+          title: Filters Applied
+      type: object
+      required:
+      - query_type
+      - parameters
+      - results
+      - count
+      - execution_time_ms
+      - reddit_api_calls
+      - filters_applied
+      title: QueryResponse
+      description: Standard query response format
+    ScenarioResponse:
+      properties:
+        scenario:
+          type: string
+          title: Scenario
+        description:
+          type: string
+          title: Description
+        results:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Results
+        count:
+          type: integer
+          title: Count
+        execution_time_ms:
+          type: number
+          title: Execution Time Ms
+      type: object
+      required:
+      - scenario
+      - description
+      - results
+      - count
+      - execution_time_ms
+      title: ScenarioResponse
+    SentimentAnalysisRequest:
+      properties:
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - text
+      title: SentimentAnalysisRequest
+    SentimentAnalysisResponse:
+      properties:
+        text:
+          type: string
+          title: Text
+        sentiment_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Sentiment Score
+        sentiment_label:
+          type: string
+          title: Sentiment Label
+        analysis_time_ms:
+          type: number
+          title: Analysis Time Ms
+      type: object
+      required:
+      - text
+      - sentiment_score
+      - sentiment_label
+      - analysis_time_ms
+      title: SentimentAnalysisResponse
+    SortType:
+      type: string
+      enum:
+      - hot
+      - new
+      - top
+      - rising
+      - controversial
+      title: SortType
+    TimeFilter:
+      type: string
+      enum:
+      - hour
+      - day
+      - week
+      - month
+      - year
+      - all
+      title: TimeFilter
+    UserQueryRequest:
+      properties:
+        usernames:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Usernames
+          description: Specific usernames to analyze
+        subreddits:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Subreddits
+          description: Find active users in these subreddits
+        min_comment_karma:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Comment Karma
+          description: Minimum comment karma
+        min_link_karma:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Link Karma
+          description: Minimum link karma
+        min_total_karma:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Total Karma
+          description: Minimum total karma
+        min_account_age_days:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Account Age Days
+          description: Minimum account age in days
+        max_account_age_days:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Account Age Days
+          description: Maximum account age in days
+        min_post_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Post Count
+          description: Minimum post count in timeframe
+        min_comment_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Comment Count
+          description: Minimum comment count in timeframe
+        timeframe_days:
+          type: integer
+          title: Timeframe Days
+          description: Days to look back for activity
+          default: 30
+        include_verified_only:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Include Verified Only
+          description: Only verified email users
+        include_premium_only:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Include Premium Only
+          description: Only Reddit premium users
+        exclude_suspended:
+          type: boolean
+          title: Exclude Suspended
+          description: Exclude suspended accounts
+          default: true
+        limit:
+          type: integer
+          title: Limit
+          description: Maximum results (1-500)
+          default: 50
+      type: object
+      title: UserQueryRequest
+      description: Advanced user query parameters
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    api__data__CommentQueryRequest:
+      properties:
+        job_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Job Ids
+          description: Specific collection job IDs
+        post_ids:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Post Ids
+          description: Specific post IDs
+        subreddits:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Subreddits
+          description: Filter by subreddits
+        keywords:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Keywords
+          description: Search in comment body
+        exclude_keywords:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Exclude Keywords
+          description: Exclude comments with these keywords
+        min_score:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Score
+          description: Minimum comment score
+        max_score:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Score
+          description: Maximum comment score
+        min_depth:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Depth
+          description: Minimum thread depth
+        max_depth:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Depth
+          description: Maximum thread depth
+        top_level_only:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Top Level Only
+          description: Only top-level comments
+          default: false
+        authors:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Authors
+          description: Filter by specific authors
+        exclude_authors:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Exclude Authors
+          description: Exclude specific authors
+        exclude_deleted:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Exclude Deleted
+          description: Exclude deleted comments
+          default: true
+        is_submitter:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Submitter
+          description: Filter by post author comments
+        created_after:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created After
+          description: Comments created after this date
+        created_before:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created Before
+          description: Comments created before this date
+        sort_by:
+          type: string
+          title: Sort By
+          description: Sort field
+          default: created_utc
+        sort_order:
+          type: string
+          title: Sort Order
+          description: Sort order (asc/desc)
+          default: desc
+        limit:
+          type: integer
+          maximum: 1000.0
+          minimum: 1.0
+          title: Limit
+          description: Number of results
+          default: 50
+        offset:
+          type: integer
+          minimum: 0.0
+          title: Offset
+          description: Results offset
+          default: 0
+      type: object
+      title: CommentQueryRequest
+      description: Request model for querying stored comments
+    api__data__PostQueryRequest:
+      properties:
+        job_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Job Ids
+          description: Specific collection job IDs
+        job_status:
+          anyOf:
+          - $ref: '#/components/schemas/JobStatus'
+          - type: 'null'
+          description: Filter by job status
+        subreddits:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Subreddits
+          description: Filter by subreddits
+        keywords:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Keywords
+          description: Search in title and content
+        exclude_keywords:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Exclude Keywords
+          description: Exclude posts with these keywords
+        min_score:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Score
+          description: Minimum post score
+        max_score:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Score
+          description: Maximum post score
+        min_upvote_ratio:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Min Upvote Ratio
+          description: Minimum upvote ratio
+        min_comments:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Comments
+          description: Minimum comment count
+        max_comments:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Comments
+          description: Maximum comment count
+        exclude_nsfw:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Exclude Nsfw
+          description: Exclude NSFW content
+        exclude_stickied:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Exclude Stickied
+          description: Exclude stickied posts
+        post_types:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Post Types
+          description: Filter by post types (image, video, link, text)
+        created_after:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created After
+          description: Posts created after this date
+        created_before:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created Before
+          description: Posts created before this date
+        collected_after:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Collected After
+          description: Posts collected after this date
+        collected_before:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Collected Before
+          description: Posts collected before this date
+        authors:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Authors
+          description: Filter by specific authors
+        exclude_authors:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Exclude Authors
+          description: Exclude specific authors
+        exclude_deleted:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Exclude Deleted
+          description: Exclude deleted/removed posts
+          default: true
+        sort_by:
+          type: string
+          title: Sort By
+          description: Sort field
+          default: created_utc
+        sort_order:
+          type: string
+          title: Sort Order
+          description: Sort order (asc/desc)
+          default: desc
+        limit:
+          type: integer
+          maximum: 1000.0
+          minimum: 1.0
+          title: Limit
+          description: Number of results
+          default: 20
+        offset:
+          type: integer
+          minimum: 0.0
+          title: Offset
+          description: Results offset
+          default: 0
+      type: object
+      title: PostQueryRequest
+      description: Request model for querying stored posts
+    api__query__CommentQueryRequest:
+      properties:
+        subreddits:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Subreddits
+          description: List of subreddit names
+        post_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Post Ids
+          description: Specific post IDs to get comments from
+        keywords:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Keywords
+          description: Keywords to search for in comments
+        exclude_keywords:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Exclude Keywords
+          description: Keywords to exclude
+        min_score:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Score
+          description: Minimum comment score
+        max_score:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Score
+          description: Maximum comment score
+        include_authors:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Include Authors
+          description: Include only these authors
+        exclude_authors:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Exclude Authors
+          description: Exclude these authors
+        exclude_deleted:
+          type: boolean
+          title: Exclude Deleted
+          description: Exclude deleted comments
+          default: true
+        exclude_removed:
+          type: boolean
+          title: Exclude Removed
+          description: Exclude removed comments
+          default: true
+        max_depth:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Depth
+          description: Maximum comment depth
+        min_depth:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Depth
+          description: Minimum comment depth
+        include_op_replies:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Include Op Replies
+          description: Include/exclude OP replies
+        sort_type:
+          type: string
+          title: Sort Type
+          description: 'Sort type: top, new, best, controversial'
+          default: top
+        limit:
+          type: integer
+          title: Limit
+          description: Maximum results (1-1000)
+          default: 100
+      type: object
+      title: CommentQueryRequest
+      description: Advanced comment query parameters
+    api__query__PostQueryRequest:
+      properties:
+        subreddits:
+          items:
+            type: string
+          type: array
+          title: Subreddits
+          description: List of subreddit names
+        keywords:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Keywords
+          description: Keywords to search for
+        exclude_keywords:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Exclude Keywords
+          description: Keywords to exclude
+        date_from:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Date From
+          description: Start date (ISO format)
+        date_to:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Date To
+          description: End date (ISO format)
+        min_score:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Score
+          description: Minimum post score
+        max_score:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Score
+          description: Maximum post score
+        min_upvote_ratio:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Min Upvote Ratio
+          description: Minimum upvote ratio (0.0-1.0)
+        max_upvote_ratio:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Max Upvote Ratio
+          description: Maximum upvote ratio (0.0-1.0)
+        min_comments:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Comments
+          description: Minimum number of comments
+        max_comments:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Comments
+          description: Maximum number of comments
+        include_authors:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Include Authors
+          description: Include only these authors
+        exclude_authors:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Exclude Authors
+          description: Exclude these authors
+        exclude_deleted:
+          type: boolean
+          title: Exclude Deleted
+          description: Exclude deleted posts
+          default: true
+        exclude_removed:
+          type: boolean
+          title: Exclude Removed
+          description: Exclude removed posts
+          default: true
+        content_types:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Content Types
+          description: 'Content types: text, link, image, video'
+        exclude_nsfw:
+          type: boolean
+          title: Exclude Nsfw
+          description: Exclude NSFW content
+          default: true
+        exclude_spoilers:
+          type: boolean
+          title: Exclude Spoilers
+          description: Exclude spoiler content
+          default: true
+        exclude_stickied:
+          type: boolean
+          title: Exclude Stickied
+          description: Exclude stickied posts
+          default: true
+        sort_type:
+          type: string
+          title: Sort Type
+          description: 'Sort type: hot, new, top, rising, controversial'
+          default: hot
+        time_filter:
+          type: string
+          title: Time Filter
+          description: 'Time filter: hour, day, week, month, year, all'
+          default: all
+        limit:
+          type: integer
+          title: Limit
+          description: Maximum results (1-1000)
+          default: 100
+        include_self_text:
+          type: boolean
+          title: Include Self Text
+          description: Include post self text
+          default: true
+        include_awards:
+          type: boolean
+          title: Include Awards
+          description: Include award information
+          default: false
+      type: object
+      required:
+      - subreddits
+      title: PostQueryRequest
+      description: Advanced post query parameters
