@@ -1,0 +1,1705 @@
+openapi: 3.1.0
+info:
+  title: Trendit API
+  description: Comprehensive Reddit Data Collection and Analysis Platform - Updated 2025
+  version: 1.0.0
+  contact:
+    name: Trendit API Support
+    url: https://trendit-supabase.onrender.com
+
+servers:
+  - url: https://trendit-supabase.onrender.com
+    description: Production Server
+  - url: http://localhost:8000
+    description: Development Server
+
+paths:
+  /:
+    get:
+      summary: Root
+      description: Root endpoint with API information
+      operationId: root
+      responses:
+        '200':
+          description: API information
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /health:
+    get:
+      summary: Health Check
+      description: Health check endpoint with database and service status
+      operationId: health_check
+      responses:
+        '200':
+          description: Service health status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  database:
+                    type: string
+                  database_type:
+                    type: string
+                  supabase:
+                    type: string
+                  reddit_api:
+                    type: string
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  # Scenarios API (7 endpoints)
+  /api/scenarios/1/subreddit-keyword-search:
+    get:
+      tags:
+        - scenarios
+      summary: 'Scenario 1: Subreddit Keyword Search'
+      description: Get the most popular posts in a subreddit with keywords within a date range
+      operationId: scenario_1_subreddit_keyword_search
+      parameters:
+        - name: subreddit
+          in: query
+          required: true
+          schema:
+            type: string
+          description: "Subreddit name (e.g., 'python')"
+        - name: keywords
+          in: query
+          required: true
+          schema:
+            type: string
+          description: "Comma-separated keywords (e.g., 'poetry,package')"
+        - name: date_from
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          description: Start date (YYYY-MM-DD)
+        - name: date_to
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          description: End date (YYYY-MM-DD)
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: Number of results to return
+        - name: sort_by
+          in: query
+          required: false
+          schema:
+            type: string
+            default: score
+          description: 'Sort by: score, comments, date'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioResponse'
+
+  /api/scenarios/2/trending-multi-subreddits:
+    get:
+      tags:
+        - scenarios
+      summary: 'Scenario 2: Trending Multi Subreddits'
+      description: Get trending posts across multiple subreddits
+      operationId: scenario_2_trending_multi_subreddits
+      parameters:
+        - name: subreddits
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Comma-separated subreddit names
+        - name: timeframe
+          in: query
+          required: false
+          schema:
+            type: string
+            default: day
+          description: 'Timeframe: hour, day, week'
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: Number of trending posts to return
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioResponse'
+
+  /api/scenarios/3/top-posts-all:
+    get:
+      tags:
+        - scenarios
+      summary: 'Scenario 3: Top Posts All'
+      description: Get top posts from r/all
+      operationId: scenario_3_top_posts_all
+      parameters:
+        - name: sort_type
+          in: query
+          required: false
+          schema:
+            type: string
+            default: hot
+            enum:
+              - hot
+              - top
+              - new
+              - rising
+              - controversial
+          description: Sort type
+        - name: time_filter
+          in: query
+          required: false
+          schema:
+            type: string
+            default: week
+            enum:
+              - hour
+              - day
+              - week
+              - month
+              - year
+              - all
+          description: Time filter
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: Number of posts to return
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioResponse'
+
+  /api/scenarios/4/most-popular-today:
+    get:
+      tags:
+        - scenarios
+      summary: 'Scenario 4: Most Popular Today'
+      description: Get the most popular post in a subreddit today
+      operationId: scenario_4_most_popular_today
+      parameters:
+        - name: subreddit
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Subreddit name
+        - name: metric
+          in: query
+          required: false
+          schema:
+            type: string
+            default: score
+            enum:
+              - score
+              - comments
+              - upvote_ratio
+          description: Popularity metric
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioResponse'
+
+  /api/scenarios/comments/top-by-criteria:
+    get:
+      tags:
+        - scenarios
+      summary: Top Comments by Criteria
+      description: Get top comments based on various criteria
+      operationId: get_top_comments_by_criteria
+      parameters:
+        - name: subreddit
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Specific subreddit to search
+        - name: post_id
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Specific post ID
+        - name: keywords
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Comma-separated keywords
+        - name: days_back
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 7
+          description: Days to look back
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: Number of comments to return
+        - name: sort_by
+          in: query
+          required: false
+          schema:
+            type: string
+            default: score
+            enum:
+              - score
+              - date
+              - length
+          description: Sort by field
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioResponse'
+
+  /api/scenarios/users/top-by-activity:
+    get:
+      tags:
+        - scenarios
+      summary: Top Users by Activity
+      description: Get most active/popular users based on various metrics
+      operationId: get_top_users_by_activity
+      parameters:
+        - name: subreddits
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Comma-separated subreddit names
+        - name: days_back
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 7
+          description: Days to analyze
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: Number of users to return
+        - name: metric
+          in: query
+          required: false
+          schema:
+            type: string
+            default: total_score
+            enum:
+              - total_score
+              - post_count
+              - comment_count
+          description: Ranking metric
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioResponse'
+
+  /api/scenarios/examples:
+    get:
+      tags:
+        - scenarios
+      summary: Get Scenario Examples
+      description: Get example API calls for all scenarios
+      operationId: get_scenario_examples
+      responses:
+        '200':
+          description: Scenario examples
+          content:
+            application/json:
+              schema:
+                type: object
+
+  # Query API (5 endpoints)
+  /api/query/posts:
+    post:
+      tags:
+        - query
+      summary: Advanced Post Query
+      description: Query Reddit posts with comprehensive filtering options
+      operationId: query_posts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostQueryRequest'
+      responses:
+        '200':
+          description: Query results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+
+  /api/query/comments:
+    post:
+      tags:
+        - query
+      summary: Advanced Comment Query
+      description: Query Reddit comments with comprehensive filtering options
+      operationId: query_comments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentQueryRequest'
+      responses:
+        '200':
+          description: Query results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+
+  /api/query/users:
+    post:
+      tags:
+        - query
+      summary: Advanced User Query
+      description: Query Reddit users with filtering options
+      operationId: query_users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserQueryRequest'
+      responses:
+        '200':
+          description: Query results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+
+  /api/query/posts/simple:
+    get:
+      tags:
+        - query
+      summary: Simple Post Query
+      description: Simple post query via GET parameters
+      operationId: simple_post_query
+      parameters:
+        - name: subreddits
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Comma-separated subreddit names
+        - name: keywords
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Comma-separated keywords
+        - name: min_score
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Minimum score
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 50
+          description: Maximum results
+        - name: sort_type
+          in: query
+          required: false
+          schema:
+            type: string
+            default: hot
+            enum:
+              - hot
+              - new
+              - top
+              - rising
+              - controversial
+          description: Sort type
+        - name: time_filter
+          in: query
+          required: false
+          schema:
+            type: string
+            default: week
+            enum:
+              - hour
+              - day
+              - week
+              - month
+              - year
+              - all
+          description: Time filter
+      responses:
+        '200':
+          description: Query results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+
+  /api/query/examples:
+    get:
+      tags:
+        - query
+      summary: Query Examples
+      description: Get example queries for the Query API
+      operationId: query_examples
+      responses:
+        '200':
+          description: Query examples
+          content:
+            application/json:
+              schema:
+                type: object
+
+  # Collection API (6 endpoints)
+  /api/collect/jobs:
+    post:
+      tags:
+        - collection
+      summary: Create Collection Job
+      description: Create a new persistent collection job that runs in the background
+      operationId: create_collection_job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionJobRequest'
+      responses:
+        '200':
+          description: Job created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionJobResponse'
+    get:
+      tags:
+        - collection
+      summary: List Collection Jobs
+      description: List collection jobs with optional filtering
+      operationId: list_collection_jobs
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/JobStatus'
+          description: Filter by job status
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+        - name: per_page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+          description: Items per page
+      responses:
+        '200':
+          description: List of collection jobs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionJobListResponse'
+
+  /api/collect/jobs/{job_id}:
+    get:
+      tags:
+        - collection
+      summary: Get Collection Job
+      description: Get detailed information about a specific collection job
+      operationId: get_collection_job
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Job ID
+      responses:
+        '200':
+          description: Job details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionJobResponse'
+    delete:
+      tags:
+        - collection
+      summary: Delete Collection Job
+      description: Delete a collection job and all associated data
+      operationId: delete_collection_job
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Job ID
+      responses:
+        '200':
+          description: Job deleted successfully
+
+  /api/collect/jobs/{job_id}/status:
+    get:
+      tags:
+        - collection
+      summary: Get Job Status
+      description: Get quick status update for a collection job
+      operationId: get_collection_job_status
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Job ID
+      responses:
+        '200':
+          description: Job status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionJobStatusResponse'
+
+  /api/collect/jobs/{job_id}/cancel:
+    post:
+      tags:
+        - collection
+      summary: Cancel Collection Job
+      description: Cancel a running collection job
+      operationId: cancel_collection_job
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Job ID
+      responses:
+        '200':
+          description: Job cancelled successfully
+
+  # Data API (4 endpoints) 
+  /api/data/posts:
+    post:
+      tags:
+        - data
+      summary: Query Stored Posts
+      description: Query stored Reddit posts with advanced filtering
+      operationId: query_stored_posts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataPostQueryRequest'
+      responses:
+        '200':
+          description: Query results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataQueryResponse'
+
+  /api/data/comments:
+    post:
+      tags:
+        - data
+      summary: Query Stored Comments
+      description: Query stored Reddit comments with advanced filtering
+      operationId: query_stored_comments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataCommentQueryRequest'
+      responses:
+        '200':
+          description: Query results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataQueryResponse'
+
+  /api/data/analytics/{job_id}:
+    get:
+      tags:
+        - data
+      summary: Get Job Analytics
+      description: Get analytics for a specific collection job
+      operationId: get_job_analytics
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Job ID
+      responses:
+        '200':
+          description: Job analytics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsResponse'
+
+  /api/data/summary:
+    get:
+      tags:
+        - data
+      summary: Get Data Summary
+      description: Get overall summary of stored data
+      operationId: get_data_summary
+      responses:
+        '200':
+          description: Data summary
+          content:
+            application/json:
+              schema:
+                type: object
+
+  # Export API (4 endpoints)
+  /api/export/posts/{format}:
+    post:
+      tags:
+        - export
+      summary: Export Posts
+      description: Export posts in specified format (csv, json, jsonl, parquet)
+      operationId: export_posts
+      parameters:
+        - name: format
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - csv
+              - json
+              - jsonl
+              - parquet
+          description: Export format
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataPostQueryRequest'
+      responses:
+        '200':
+          description: Exported data
+          content:
+            application/octet-stream: {}
+
+  /api/export/comments/{format}:
+    post:
+      tags:
+        - export
+      summary: Export Comments
+      description: Export comments in specified format (csv, json, jsonl, parquet)
+      operationId: export_comments
+      parameters:
+        - name: format
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - csv
+              - json
+              - jsonl
+              - parquet
+          description: Export format
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataCommentQueryRequest'
+      responses:
+        '200':
+          description: Exported data
+          content:
+            application/octet-stream: {}
+
+  /api/export/job/{job_id}/{format}:
+    get:
+      tags:
+        - export
+      summary: Export Job Data
+      description: Export all data from a specific collection job
+      operationId: export_job_data
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Job ID
+        - name: format
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - csv
+              - json
+              - jsonl
+              - parquet
+          description: Export format
+        - name: include_comments
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+          description: Include comments in export
+      responses:
+        '200':
+          description: Exported data
+          content:
+            application/octet-stream: {}
+
+  /api/export/formats:
+    get:
+      tags:
+        - export
+      summary: Get Supported Formats
+      description: Get list of supported export formats and their descriptions
+      operationId: get_supported_formats
+      responses:
+        '200':
+          description: Supported formats
+          content:
+            application/json:
+              schema:
+                type: object
+
+  # Sentiment API (4 endpoints)
+  /api/sentiment/status:
+    get:
+      tags:
+        - sentiment
+      summary: Get Sentiment Analysis Status
+      description: Get sentiment analysis service status
+      operationId: get_sentiment_analysis_status
+      responses:
+        '200':
+          description: Service status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                    type: boolean
+                  api_configured:
+                    type: boolean
+                  model:
+                    type: string
+                  description:
+                    type: string
+
+  /api/sentiment/analyze:
+    post:
+      tags:
+        - sentiment
+      summary: Analyze Text Sentiment
+      description: Analyze sentiment of a single text
+      operationId: analyze_text_sentiment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SentimentAnalysisRequest'
+      responses:
+        '200':
+          description: Sentiment analysis result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SentimentAnalysisResponse'
+
+  /api/sentiment/analyze-batch:
+    post:
+      tags:
+        - sentiment
+      summary: Analyze Batch Sentiment
+      description: Analyze sentiment of multiple texts in batch
+      operationId: analyze_batch_sentiment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchSentimentAnalysisRequest'
+      responses:
+        '200':
+          description: Batch sentiment analysis results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchSentimentAnalysisResponse'
+
+  /api/sentiment/test:
+    get:
+      tags:
+        - sentiment
+      summary: Test Sentiment Analysis
+      description: Test sentiment analysis with sample texts
+      operationId: test_sentiment_analysis
+      responses:
+        '200':
+          description: Test results
+          content:
+            application/json:
+              schema:
+                type: object
+
+components:
+  schemas:
+    # Core Response Types
+    ScenarioResponse:
+      type: object
+      required:
+        - scenario
+        - description
+        - results
+        - count
+        - execution_time_ms
+      properties:
+        scenario:
+          type: string
+        description:
+          type: string
+        results:
+          type: array
+          items:
+            type: object
+        count:
+          type: integer
+        execution_time_ms:
+          type: number
+
+    QueryResponse:
+      type: object
+      required:
+        - query_type
+        - parameters
+        - results
+        - count
+        - execution_time_ms
+        - reddit_api_calls
+        - filters_applied
+      properties:
+        query_type:
+          type: string
+        parameters:
+          type: object
+        results:
+          type: array
+          items:
+            type: object
+        count:
+          type: integer
+        execution_time_ms:
+          type: number
+        reddit_api_calls:
+          type: integer
+        filters_applied:
+          type: array
+          items:
+            type: string
+
+    DataQueryResponse:
+      type: object
+      required:
+        - query_type
+        - description
+        - results
+        - total_count
+        - returned_count
+        - execution_time_ms
+      properties:
+        query_type:
+          type: string
+        description:
+          type: string
+        results:
+          type: array
+          items:
+            type: object
+        total_count:
+          type: integer
+        returned_count:
+          type: integer
+        execution_time_ms:
+          type: number
+
+    # Request Types
+    PostQueryRequest:
+      type: object
+      required:
+        - subreddits
+      properties:
+        subreddits:
+          type: array
+          items:
+            type: string
+          description: List of subreddit names
+        keywords:
+          type: array
+          items:
+            type: string
+          description: Keywords to search for
+        exclude_keywords:
+          type: array
+          items:
+            type: string
+          description: Keywords to exclude
+        date_from:
+          type: string
+          format: date-time
+          description: Start date
+        date_to:
+          type: string
+          format: date-time
+          description: End date
+        min_score:
+          type: integer
+          description: Minimum post score
+        max_score:
+          type: integer
+          description: Maximum post score
+        min_upvote_ratio:
+          type: number
+          description: Minimum upvote ratio (0.0-1.0)
+        max_upvote_ratio:
+          type: number
+          description: Maximum upvote ratio (0.0-1.0)
+        min_comments:
+          type: integer
+          description: Minimum number of comments
+        max_comments:
+          type: integer
+          description: Maximum number of comments
+        include_authors:
+          type: array
+          items:
+            type: string
+          description: Include only these authors
+        exclude_authors:
+          type: array
+          items:
+            type: string
+          description: Exclude these authors
+        exclude_deleted:
+          type: boolean
+          default: true
+          description: Exclude deleted posts
+        exclude_removed:
+          type: boolean
+          default: true
+          description: Exclude removed posts
+        content_types:
+          type: array
+          items:
+            type: string
+          description: 'Content types: text, link, image, video'
+        exclude_nsfw:
+          type: boolean
+          default: true
+          description: Exclude NSFW content
+        exclude_spoilers:
+          type: boolean
+          default: true
+          description: Exclude spoiler content
+        exclude_stickied:
+          type: boolean
+          default: true
+          description: Exclude stickied posts
+        sort_type:
+          type: string
+          enum:
+            - hot
+            - new
+            - top
+            - rising
+            - controversial
+          default: hot
+          description: Sort type
+        time_filter:
+          type: string
+          enum:
+            - hour
+            - day
+            - week
+            - month
+            - year
+            - all
+          default: all
+          description: Time filter
+        limit:
+          type: integer
+          default: 100
+          minimum: 1
+          maximum: 1000
+          description: Maximum results
+        include_self_text:
+          type: boolean
+          default: true
+          description: Include post self text
+        include_awards:
+          type: boolean
+          default: false
+          description: Include award information
+
+    CommentQueryRequest:
+      type: object
+      properties:
+        subreddits:
+          type: array
+          items:
+            type: string
+          description: List of subreddit names
+        post_ids:
+          type: array
+          items:
+            type: string
+          description: Specific post IDs
+        keywords:
+          type: array
+          items:
+            type: string
+          description: Keywords to search for in comments
+        exclude_keywords:
+          type: array
+          items:
+            type: string
+          description: Keywords to exclude
+        min_score:
+          type: integer
+          description: Minimum comment score
+        max_score:
+          type: integer
+          description: Maximum comment score
+        include_authors:
+          type: array
+          items:
+            type: string
+          description: Include only these authors
+        exclude_authors:
+          type: array
+          items:
+            type: string
+          description: Exclude these authors
+        exclude_deleted:
+          type: boolean
+          default: true
+          description: Exclude deleted comments
+        exclude_removed:
+          type: boolean
+          default: true
+          description: Exclude removed comments
+        max_depth:
+          type: integer
+          description: Maximum comment depth
+        min_depth:
+          type: integer
+          description: Minimum comment depth
+        include_op_replies:
+          type: boolean
+          description: Include/exclude OP replies
+        sort_type:
+          type: string
+          enum:
+            - top
+            - new
+            - best
+            - controversial
+          default: top
+          description: Sort type
+        limit:
+          type: integer
+          default: 100
+          minimum: 1
+          maximum: 1000
+          description: Maximum results
+
+    UserQueryRequest:
+      type: object
+      properties:
+        usernames:
+          type: array
+          items:
+            type: string
+          description: Specific usernames to analyze
+        subreddits:
+          type: array
+          items:
+            type: string
+          description: Find active users in these subreddits
+        min_comment_karma:
+          type: integer
+          description: Minimum comment karma
+        min_link_karma:
+          type: integer
+          description: Minimum link karma
+        min_total_karma:
+          type: integer
+          description: Minimum total karma
+        min_account_age_days:
+          type: integer
+          description: Minimum account age in days
+        max_account_age_days:
+          type: integer
+          description: Maximum account age in days
+        min_post_count:
+          type: integer
+          description: Minimum post count in timeframe
+        min_comment_count:
+          type: integer
+          description: Minimum comment count in timeframe
+        timeframe_days:
+          type: integer
+          default: 30
+          description: Days to look back for activity
+        include_verified_only:
+          type: boolean
+          description: Only verified email users
+        include_premium_only:
+          type: boolean
+          description: Only Reddit premium users
+        exclude_suspended:
+          type: boolean
+          default: true
+          description: Exclude suspended accounts
+        limit:
+          type: integer
+          default: 50
+          minimum: 1
+          maximum: 500
+          description: Maximum results
+
+    # Collection Job Types
+    CollectionJobRequest:
+      type: object
+      required:
+        - subreddits
+      properties:
+        subreddits:
+          type: array
+          items:
+            type: string
+          description: List of subreddit names
+        sort_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/SortType'
+          default:
+            - hot
+          description: Sort types to use
+        time_filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeFilter'
+          default:
+            - week
+          description: Time filters to apply
+        post_limit:
+          type: integer
+          default: 100
+          minimum: 1
+          maximum: 10000
+          description: Maximum posts to collect
+        comment_limit:
+          type: integer
+          default: 50
+          minimum: 0
+          maximum: 1000
+          description: Maximum comments per post
+        max_comment_depth:
+          type: integer
+          default: 3
+          minimum: 0
+          maximum: 10
+          description: Maximum comment thread depth
+        keywords:
+          type: array
+          items:
+            type: string
+          description: Search keywords
+        min_score:
+          type: integer
+          default: 0
+          description: Minimum post score
+        min_upvote_ratio:
+          type: number
+          default: 0.0
+          minimum: 0.0
+          maximum: 1.0
+          description: Minimum upvote ratio
+        date_from:
+          type: string
+          format: date-time
+          description: Start date filter
+        date_to:
+          type: string
+          format: date-time
+          description: End date filter
+        exclude_nsfw:
+          type: boolean
+          default: true
+          description: Exclude NSFW content
+        anonymize_users:
+          type: boolean
+          default: true
+          description: Anonymize user information
+
+    CollectionJobResponse:
+      type: object
+      required:
+        - id
+        - job_id
+        - status
+        - progress
+        - total_expected
+        - collected_posts
+        - collected_comments
+        - created_at
+        - subreddits
+        - post_limit
+      properties:
+        id:
+          type: integer
+        job_id:
+          type: string
+        status:
+          $ref: '#/components/schemas/JobStatus'
+        progress:
+          type: integer
+        total_expected:
+          type: integer
+        collected_posts:
+          type: integer
+        collected_comments:
+          type: integer
+        error_message:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        started_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+        subreddits:
+          type: array
+          items:
+            type: string
+        post_limit:
+          type: integer
+
+    CollectionJobListResponse:
+      type: object
+      required:
+        - jobs
+        - total
+        - page
+        - per_page
+      properties:
+        jobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/CollectionJobResponse'
+        total:
+          type: integer
+        page:
+          type: integer
+        per_page:
+          type: integer
+
+    CollectionJobStatusResponse:
+      type: object
+      required:
+        - job_id
+        - status
+        - progress
+        - collected_posts
+        - collected_comments
+      properties:
+        job_id:
+          type: string
+        status:
+          $ref: '#/components/schemas/JobStatus'
+        progress:
+          type: integer
+        collected_posts:
+          type: integer
+        collected_comments:
+          type: integer
+        error_message:
+          type: string
+
+    # Data Query Types
+    DataPostQueryRequest:
+      type: object
+      properties:
+        job_ids:
+          type: array
+          items:
+            type: string
+          description: Specific collection job IDs
+        job_status:
+          $ref: '#/components/schemas/JobStatus'
+        subreddits:
+          type: array
+          items:
+            type: string
+          description: Filter by subreddits
+        keywords:
+          type: array
+          items:
+            type: string
+          description: Search in title and content
+        exclude_keywords:
+          type: array
+          items:
+            type: string
+          description: Exclude posts with these keywords
+        min_score:
+          type: integer
+          description: Minimum post score
+        max_score:
+          type: integer
+          description: Maximum post score
+        min_upvote_ratio:
+          type: number
+          description: Minimum upvote ratio
+        min_comments:
+          type: integer
+          description: Minimum comment count
+        max_comments:
+          type: integer
+          description: Maximum comment count
+        exclude_nsfw:
+          type: boolean
+          description: Exclude NSFW content
+        exclude_stickied:
+          type: boolean
+          description: Exclude stickied posts
+        post_types:
+          type: array
+          items:
+            type: string
+          description: Filter by post types
+        created_after:
+          type: string
+          format: date-time
+          description: Posts created after this date
+        created_before:
+          type: string
+          format: date-time
+          description: Posts created before this date
+        collected_after:
+          type: string
+          format: date-time
+          description: Posts collected after this date
+        collected_before:
+          type: string
+          format: date-time
+          description: Posts collected before this date
+        authors:
+          type: array
+          items:
+            type: string
+          description: Filter by specific authors
+        exclude_authors:
+          type: array
+          items:
+            type: string
+          description: Exclude specific authors
+        exclude_deleted:
+          type: boolean
+          default: true
+          description: Exclude deleted/removed posts
+        sort_by:
+          type: string
+          default: created_utc
+          description: Sort field
+        sort_order:
+          type: string
+          default: desc
+          description: Sort order (asc/desc)
+        limit:
+          type: integer
+          default: 20
+          minimum: 1
+          maximum: 1000
+          description: Number of results
+        offset:
+          type: integer
+          default: 0
+          minimum: 0
+          description: Results offset
+
+    DataCommentQueryRequest:
+      type: object
+      properties:
+        job_ids:
+          type: array
+          items:
+            type: string
+          description: Specific collection job IDs
+        post_ids:
+          type: array
+          items:
+            type: integer
+          description: Specific post IDs
+        subreddits:
+          type: array
+          items:
+            type: string
+          description: Filter by subreddits
+        keywords:
+          type: array
+          items:
+            type: string
+          description: Search in comment body
+        exclude_keywords:
+          type: array
+          items:
+            type: string
+          description: Exclude comments with these keywords
+        min_score:
+          type: integer
+          description: Minimum comment score
+        max_score:
+          type: integer
+          description: Maximum comment score
+        min_depth:
+          type: integer
+          description: Minimum thread depth
+        max_depth:
+          type: integer
+          description: Maximum thread depth
+        top_level_only:
+          type: boolean
+          default: false
+          description: Only top-level comments
+        authors:
+          type: array
+          items:
+            type: string
+          description: Filter by specific authors
+        exclude_authors:
+          type: array
+          items:
+            type: string
+          description: Exclude specific authors
+        exclude_deleted:
+          type: boolean
+          default: true
+          description: Exclude deleted comments
+        is_submitter:
+          type: boolean
+          description: Filter by post author comments
+        created_after:
+          type: string
+          format: date-time
+          description: Comments created after this date
+        created_before:
+          type: string
+          format: date-time
+          description: Comments created before this date
+        sort_by:
+          type: string
+          default: created_utc
+          description: Sort field
+        sort_order:
+          type: string
+          default: desc
+          description: Sort order (asc/desc)
+        limit:
+          type: integer
+          default: 50
+          minimum: 1
+          maximum: 1000
+          description: Number of results
+        offset:
+          type: integer
+          default: 0
+          minimum: 0
+          description: Results offset
+
+    # Analytics Types
+    AnalyticsResponse:
+      type: object
+      required:
+        - total_posts
+        - unique_subreddits
+        - unique_authors
+        - date_range
+        - score_stats
+        - engagement_stats
+        - content_distribution
+        - top_posts
+        - subreddit_breakdown
+      properties:
+        total_posts:
+          type: integer
+        unique_subreddits:
+          type: integer
+        unique_authors:
+          type: integer
+        date_range:
+          type: object
+        score_stats:
+          type: object
+        engagement_stats:
+          type: object
+        content_distribution:
+          type: object
+        top_posts:
+          type: array
+          items:
+            type: object
+        subreddit_breakdown:
+          type: object
+
+    # Sentiment Analysis Types
+    SentimentAnalysisRequest:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+
+    SentimentAnalysisResponse:
+      type: object
+      required:
+        - text
+        - sentiment_score
+        - sentiment_label
+        - analysis_time_ms
+      properties:
+        text:
+          type: string
+        sentiment_score:
+          type: number
+        sentiment_label:
+          type: string
+        analysis_time_ms:
+          type: number
+
+    BatchSentimentAnalysisRequest:
+      type: object
+      required:
+        - texts
+      properties:
+        texts:
+          type: array
+          items:
+            type: string
+
+    BatchSentimentAnalysisResponse:
+      type: object
+      required:
+        - results
+        - stats
+        - total_time_ms
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SentimentAnalysisResponse'
+        stats:
+          type: object
+        total_time_ms:
+          type: number
+
+    # Enum Types
+    JobStatus:
+      type: string
+      enum:
+        - pending
+        - running
+        - completed
+        - failed
+        - cancelled
+
+    SortType:
+      type: string
+      enum:
+        - hot
+        - new
+        - top
+        - rising
+        - controversial
+
+    TimeFilter:
+      type: string
+      enum:
+        - hour
+        - day
+        - week
+        - month
+        - year
+        - all

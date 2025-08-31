@@ -7,19 +7,19 @@ Complete collection of cURL examples for all Trendit API endpoints.
 ### Health Check
 ```bash
 # Basic health check
-curl -X GET "http://localhost:8000/health"
+curl -X GET "https://trendit-supabase.onrender.com"
 
 # Health check with formatted output
-curl -s "http://localhost:8000/health" | python -m json.tool
+curl -s "https://trendit-supabase.onrender.com/health" | python -m json.tool
 ```
 
 ### API Information
 ```bash
 # Get API info and features
-curl -X GET "http://localhost:8000/"
+curl -X GET "https://trendit-supabase.onrender.com/"
 
 # Get just the scenarios list
-curl -s "http://localhost:8000/" | python -c "import sys,json; data=json.load(sys.stdin); print(json.dumps(data['scenarios'], indent=2))"
+curl -s "https://trendit-supabase.onrender.com/" | python -c "import sys,json; data=json.load(sys.stdin); print(json.dumps(data['scenarios'], indent=2))"
 ```
 
 ## Scenarios API - Quickstart Examples
@@ -27,101 +27,101 @@ curl -s "http://localhost:8000/" | python -c "import sys,json; data=json.load(sy
 ### Scenario 1: Subreddit Keyword Search
 ```bash
 # Basic keyword search
-curl -X GET "http://localhost:8000/api/scenarios/1/subreddit-keyword-search?subreddit=python&keywords=fastapi&date_from=2024-01-01&date_to=2024-12-31&limit=5"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/1/subreddit-keyword-search?subreddit=python&keywords=fastapi&date_from=2024-01-01&date_to=2024-12-31&limit=5"
 
 # Multiple keywords
-curl -X GET "http://localhost:8000/api/scenarios/1/subreddit-keyword-search?subreddit=programming&keywords=python,django,flask&date_from=2024-06-01&date_to=2024-12-31&limit=10&sort_by=score"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/1/subreddit-keyword-search?subreddit=programming&keywords=python,django,flask&date_from=2024-06-01&date_to=2024-12-31&limit=10&sort_by=score"
 
 # Search in different subreddit with date range
-curl -X GET "http://localhost:8000/api/scenarios/1/subreddit-keyword-search?subreddit=MachineLearning&keywords=pytorch,tensorflow&date_from=2024-01-01&date_to=2024-06-30&limit=15"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/1/subreddit-keyword-search?subreddit=MachineLearning&keywords=pytorch,tensorflow&date_from=2024-01-01&date_to=2024-06-30&limit=15"
 
 # Search for async programming posts
-curl -X GET "http://localhost:8000/api/scenarios/1/subreddit-keyword-search?subreddit=python&keywords=async,await,asyncio&date_from=2024-01-01&date_to=2024-12-31&limit=20&sort_by=comments"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/1/subreddit-keyword-search?subreddit=python&keywords=async,await,asyncio&date_from=2024-01-01&date_to=2024-12-31&limit=20&sort_by=comments"
 ```
 
 ### Scenario 2: Multi-Subreddit Trending
 ```bash
 # Trending in programming subreddits today
-curl -X GET "http://localhost:8000/api/scenarios/2/trending-multi-subreddits?subreddits=python,programming,coding&timeframe=day&limit=10"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/2/trending-multi-subreddits?subreddits=python,programming,coding&timeframe=day&limit=10"
 
 # Trending this week in AI subreddits
-curl -X GET "http://localhost:8000/api/scenarios/2/trending-multi-subreddits?subreddits=MachineLearning,artificial,OpenAI&timeframe=week&limit=15"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/2/trending-multi-subreddits?subreddits=MachineLearning,artificial,OpenAI&timeframe=week&limit=15"
 
 # Trending web development topics
-curl -X GET "http://localhost:8000/api/scenarios/2/trending-multi-subreddits?subreddits=webdev,javascript,reactjs,node&timeframe=day&limit=20"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/2/trending-multi-subreddits?subreddits=webdev,javascript,reactjs,node&timeframe=day&limit=20"
 
 # Trending in data science communities
-curl -X GET "http://localhost:8000/api/scenarios/2/trending-multi-subreddits?subreddits=datascience,analytics,statistics&timeframe=week&limit=12"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/2/trending-multi-subreddits?subreddits=datascience,analytics,statistics&timeframe=week&limit=12"
 ```
 
 ### Scenario 3: Top Posts from r/all
 ```bash
 # Hot posts from r/all today
-curl -X GET "http://localhost:8000/api/scenarios/3/top-posts-all?sort_type=hot&time_filter=day&limit=10"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/3/top-posts-all?sort_type=hot&time_filter=day&limit=10"
 
 # Top posts this week
-curl -X GET "http://localhost:8000/api/scenarios/3/top-posts-all?sort_type=top&time_filter=week&limit=25&exclude_nsfw=true"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/3/top-posts-all?sort_type=top&time_filter=week&limit=25&exclude_nsfw=true"
 
 # Rising posts from r/all
-curl -X GET "http://localhost:8000/api/scenarios/3/top-posts-all?sort_type=rising&time_filter=hour&limit=15"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/3/top-posts-all?sort_type=rising&time_filter=hour&limit=15"
 
 # Controversial posts this month
-curl -X GET "http://localhost:8000/api/scenarios/3/top-posts-all?sort_type=controversial&time_filter=month&limit=20"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/3/top-posts-all?sort_type=controversial&time_filter=month&limit=20"
 ```
 
 ### Scenario 4: Most Popular Posts Today
 ```bash
 # Most popular post in r/python by score
-curl -X GET "http://localhost:8000/api/scenarios/4/most-popular-today?subreddit=python&metric=score"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/4/most-popular-today?subreddit=python&metric=score"
 
 # Most commented post in r/programming
-curl -X GET "http://localhost:8000/api/scenarios/4/most-popular-today?subreddit=programming&metric=comments"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/4/most-popular-today?subreddit=programming&metric=comments"
 
 # Highest upvote ratio in r/MachineLearning
-curl -X GET "http://localhost:8000/api/scenarios/4/most-popular-today?subreddit=MachineLearning&metric=upvote_ratio"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/4/most-popular-today?subreddit=MachineLearning&metric=upvote_ratio"
 
 # Most popular in different subreddits
-curl -X GET "http://localhost:8000/api/scenarios/4/most-popular-today?subreddit=webdev&metric=score"
-curl -X GET "http://localhost:8000/api/scenarios/4/most-popular-today?subreddit=datascience&metric=comments"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/4/most-popular-today?subreddit=webdev&metric=score"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/4/most-popular-today?subreddit=datascience&metric=comments"
 ```
 
 ### Scenario Comments: Advanced Comment Analysis
 ```bash
 # Top comments about Django
-curl -X GET "http://localhost:8000/api/scenarios/comments/top-by-criteria?subreddit=python&keywords=django&limit=10"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/comments/top-by-criteria?subreddit=python&keywords=django&limit=10"
 
 # High-scoring comments in programming
-curl -X GET "http://localhost:8000/api/scenarios/comments/top-by-criteria?subreddit=programming&min_score=50&limit=15"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/comments/top-by-criteria?subreddit=programming&min_score=50&limit=15"
 
 # Comments about machine learning
-curl -X GET "http://localhost:8000/api/scenarios/comments/top-by-criteria?subreddit=MachineLearning&keywords=neural,networks&limit=20"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/comments/top-by-criteria?subreddit=MachineLearning&keywords=neural,networks&limit=20"
 
 # Recent quality comments
-curl -X GET "http://localhost:8000/api/scenarios/comments/top-by-criteria?subreddit=python&min_score=25&limit=12"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/comments/top-by-criteria?subreddit=python&min_score=25&limit=12"
 ```
 
 ### Scenario Users: User Activity Analysis
 ```bash
 # Top users by post count in r/python
-curl -X GET "http://localhost:8000/api/scenarios/users/top-by-activity?subreddits=python&metric=post_count&limit=10"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/users/top-by-activity?subreddits=python&metric=post_count&limit=10"
 
 # Active users across multiple subreddits
-curl -X GET "http://localhost:8000/api/scenarios/users/top-by-activity?subreddits=python,programming,webdev&metric=total_score&limit=15"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/users/top-by-activity?subreddits=python,programming,webdev&metric=total_score&limit=15"
 
 # Most active commenters
-curl -X GET "http://localhost:8000/api/scenarios/users/top-by-activity?subreddits=MachineLearning&metric=comment_count&limit=20"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/users/top-by-activity?subreddits=MachineLearning&metric=comment_count&limit=20"
 
 # Top contributors in data science
-curl -X GET "http://localhost:8000/api/scenarios/users/top-by-activity?subreddits=datascience,statistics&metric=total_score&limit=12"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/users/top-by-activity?subreddits=datascience,statistics&metric=total_score&limit=12"
 ```
 
 ### Scenario Examples
 ```bash
 # Get all scenario examples and usage
-curl -X GET "http://localhost:8000/api/scenarios/examples"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/examples"
 
 # Pretty print scenarios
-curl -s "http://localhost:8000/api/scenarios/examples" | python -m json.tool
+curl -s "https://trendit-supabase.onrender.com/api/scenarios/examples" | python -m json.tool
 ```
 
 ## Collection API - Persistent Data Pipeline
@@ -131,7 +131,7 @@ curl -s "http://localhost:8000/api/scenarios/examples" | python -m json.tool
 #### Create Collection Jobs
 ```bash
 # Basic collection job for r/python
-curl -X POST "http://localhost:8000/api/collect/jobs" \
+curl -X POST "https://trendit-supabase.onrender.com/api/collect/jobs" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["python"],
@@ -146,7 +146,7 @@ curl -X POST "http://localhost:8000/api/collect/jobs" \
   }'
 
 # Multi-subreddit machine learning collection
-curl -X POST "http://localhost:8000/api/collect/jobs" \
+curl -X POST "https://trendit-supabase.onrender.com/api/collect/jobs" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["MachineLearning", "artificial", "deeplearning"],
@@ -163,7 +163,7 @@ curl -X POST "http://localhost:8000/api/collect/jobs" \
   }'
 
 # Large-scale programming discussion collection
-curl -X POST "http://localhost:8000/api/collect/jobs" \
+curl -X POST "https://trendit-supabase.onrender.com/api/collect/jobs" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["programming", "webdev", "javascript", "python"],
@@ -180,7 +180,7 @@ curl -X POST "http://localhost:8000/api/collect/jobs" \
   }'
 
 # Keyword-specific research collection
-curl -X POST "http://localhost:8000/api/collect/jobs" \
+curl -X POST "https://trendit-supabase.onrender.com/api/collect/jobs" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["python", "django", "flask"],
@@ -199,7 +199,7 @@ curl -X POST "http://localhost:8000/api/collect/jobs" \
   }'
 
 # High-volume data science collection
-curl -X POST "http://localhost:8000/api/collect/jobs" \
+curl -X POST "https://trendit-supabase.onrender.com/api/collect/jobs" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["datascience", "analytics", "statistics", "MachineLearning"],
@@ -219,51 +219,51 @@ curl -X POST "http://localhost:8000/api/collect/jobs" \
 #### List and Filter Collection Jobs
 ```bash
 # List all collection jobs
-curl -X GET "http://localhost:8000/api/collect/jobs"
+curl -X GET "https://trendit-supabase.onrender.com/api/collect/jobs"
 
 # List with pagination
-curl -X GET "http://localhost:8000/api/collect/jobs?page=1&per_page=10"
+curl -X GET "https://trendit-supabase.onrender.com/api/collect/jobs?page=1&per_page=10"
 
 # Filter by status
-curl -X GET "http://localhost:8000/api/collect/jobs?status=completed"
-curl -X GET "http://localhost:8000/api/collect/jobs?status=running"
-curl -X GET "http://localhost:8000/api/collect/jobs?status=pending"
-curl -X GET "http://localhost:8000/api/collect/jobs?status=failed"
+curl -X GET "https://trendit-supabase.onrender.com/api/collect/jobs?status=completed"
+curl -X GET "https://trendit-supabase.onrender.com/api/collect/jobs?status=running"
+curl -X GET "https://trendit-supabase.onrender.com/api/collect/jobs?status=pending"
+curl -X GET "https://trendit-supabase.onrender.com/api/collect/jobs?status=failed"
 
 # Combined filtering and pagination
-curl -X GET "http://localhost:8000/api/collect/jobs?status=completed&page=2&per_page=5"
+curl -X GET "https://trendit-supabase.onrender.com/api/collect/jobs?status=completed&page=2&per_page=5"
 ```
 
 #### Get Job Details and Status
 ```bash
 # Get full job details (replace with actual job ID)
-curl -X GET "http://localhost:8000/api/collect/jobs/fdd1714e-2f34-4134-bad9-8625581ebccf"
+curl -X GET "https://trendit-supabase.onrender.com/api/collect/jobs/fdd1714e-2f34-4134-bad9-8625581ebccf"
 
 # Get quick status update
-curl -X GET "http://localhost:8000/api/collect/jobs/fdd1714e-2f34-4134-bad9-8625581ebccf/status"
+curl -X GET "https://trendit-supabase.onrender.com/api/collect/jobs/fdd1714e-2f34-4134-bad9-8625581ebccf/status"
 
 # Monitor job progress in real-time
 while true; do
-  curl -s "http://localhost:8000/api/collect/jobs/fdd1714e-2f34-4134-bad9-8625581ebccf/status" | \
+  curl -s "https://trendit-supabase.onrender.com/api/collect/jobs/fdd1714e-2f34-4134-bad9-8625581ebccf/status" | \
     python -c "import sys,json; data=json.load(sys.stdin); print(f'Status: {data[\"status\"]}, Progress: {data[\"progress\"]}%, Posts: {data[\"collected_posts\"]}')"
   sleep 2
 done
 
 # Check if job is complete
-curl -s "http://localhost:8000/api/collect/jobs/fdd1714e-2f34-4134-bad9-8625581ebccf/status" | \
+curl -s "https://trendit-supabase.onrender.com/api/collect/jobs/fdd1714e-2f34-4134-bad9-8625581ebccf/status" | \
   python -c "import sys,json; data=json.load(sys.stdin); print('✅ Complete' if data['status'] == 'completed' else '⏳ Running...')"
 ```
 
 #### Cancel and Delete Jobs
 ```bash
 # Cancel a running job
-curl -X POST "http://localhost:8000/api/collect/jobs/fdd1714e-2f34-4134-bad9-8625581ebccf/cancel"
+curl -X POST "https://trendit-supabase.onrender.com/api/collect/jobs/fdd1714e-2f34-4134-bad9-8625581ebccf/cancel"
 
 # Delete a completed job and all its data (DESTRUCTIVE)
-curl -X DELETE "http://localhost:8000/api/collect/jobs/fdd1714e-2f34-4134-bad9-8625581ebccf"
+curl -X DELETE "https://trendit-supabase.onrender.com/api/collect/jobs/fdd1714e-2f34-4134-bad9-8625581ebccf"
 
 # Confirm deletion worked (should return 404)
-curl -X GET "http://localhost:8000/api/collect/jobs/fdd1714e-2f34-4134-bad9-8625581ebccf"
+curl -X GET "https://trendit-supabase.onrender.com/api/collect/jobs/fdd1714e-2f34-4134-bad9-8625581ebccf"
 ```
 
 ### Collection Workflows
@@ -271,7 +271,7 @@ curl -X GET "http://localhost:8000/api/collect/jobs/fdd1714e-2f34-4134-bad9-8625
 #### Create and Monitor Workflow
 ```bash
 # 1. Create a new collection job
-RESPONSE=$(curl -s -X POST "http://localhost:8000/api/collect/jobs" \
+RESPONSE=$(curl -s -X POST "https://trendit-supabase.onrender.com/api/collect/jobs" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["python"],
@@ -290,7 +290,7 @@ echo "Created job: $JOB_ID"
 
 # 3. Monitor until completion
 while true; do
-  STATUS=$(curl -s "http://localhost:8000/api/collect/jobs/$JOB_ID/status" | \
+  STATUS=$(curl -s "https://trendit-supabase.onrender.com/api/collect/jobs/$JOB_ID/status" | \
     python -c "import sys,json; print(json.load(sys.stdin)['status'])")
   
   if [ "$STATUS" = "completed" ] || [ "$STATUS" = "failed" ]; then
@@ -302,7 +302,7 @@ while true; do
 done
 
 # 4. Get final results
-curl -s "http://localhost:8000/api/collect/jobs/$JOB_ID" | \
+curl -s "https://trendit-supabase.onrender.com/api/collect/jobs/$JOB_ID" | \
   python -c "import sys,json; data=json.load(sys.stdin); print(f'Final: {data[\"status\"]} - {data[\"collected_posts\"]} posts collected')"
 ```
 
@@ -314,7 +314,7 @@ SUBREDDITS=("python" "programming" "webdev" "javascript" "datascience")
 for subreddit in "${SUBREDDITS[@]}"; do
   echo "Creating job for r/$subreddit..."
   
-  curl -s -X POST "http://localhost:8000/api/collect/jobs" \
+  curl -s -X POST "https://trendit-supabase.onrender.com/api/collect/jobs" \
     -H "Content-Type: application/json" \
     -d "{
       \"subreddits\": [\"$subreddit\"],
@@ -335,7 +335,7 @@ done
 #### Job Statistics and Analysis
 ```bash
 # Get summary of all jobs
-curl -s "http://localhost:8000/api/collect/jobs" | \
+curl -s "https://trendit-supabase.onrender.com/api/collect/jobs" | \
   python -c "
 import sys,json
 data=json.load(sys.stdin)
@@ -349,7 +349,7 @@ print(f'Total posts collected: {total_posts}')
 "
 
 # Find most productive jobs
-curl -s "http://localhost:8000/api/collect/jobs?status=completed" | \
+curl -s "https://trendit-supabase.onrender.com/api/collect/jobs?status=completed" | \
   python -c "
 import sys,json
 data=json.load(sys.stdin)
@@ -361,7 +361,7 @@ for job in jobs:
 "
 
 # Calculate collection efficiency
-curl -s "http://localhost:8000/api/collect/jobs?status=completed" | \
+curl -s "https://trendit-supabase.onrender.com/api/collect/jobs?status=completed" | \
   python -c "
 import sys,json
 from datetime import datetime
@@ -381,16 +381,16 @@ for job in data['jobs'][:3]:
 ### Simple GET Queries
 ```bash
 # Basic simple query
-curl -X GET "http://localhost:8000/api/query/posts/simple?subreddits=python&keywords=fastapi&limit=5"
+curl -X GET "https://trendit-supabase.onrender.com/api/query/posts/simple?subreddits=python&keywords=fastapi&limit=5"
 
 # Multiple subreddits with score filter
-curl -X GET "http://localhost:8000/api/query/posts/simple?subreddits=python,programming&keywords=django&min_score=50&limit=10"
+curl -X GET "https://trendit-supabase.onrender.com/api/query/posts/simple?subreddits=python,programming&keywords=django&min_score=50&limit=10"
 
 # Search for machine learning posts
-curl -X GET "http://localhost:8000/api/query/posts/simple?subreddits=MachineLearning,artificial&keywords=neural,deep&min_score=100&limit=8"
+curl -X GET "https://trendit-supabase.onrender.com/api/query/posts/simple?subreddits=MachineLearning,artificial&keywords=neural,deep&min_score=100&limit=8"
 
 # Web development queries
-curl -X GET "http://localhost:8000/api/query/posts/simple?subreddits=webdev,javascript&keywords=react,vue&min_score=25&limit=12"
+curl -X GET "https://trendit-supabase.onrender.com/api/query/posts/simple?subreddits=webdev,javascript&keywords=react,vue&min_score=25&limit=12"
 ```
 
 ### Advanced POST Queries
@@ -398,7 +398,7 @@ curl -X GET "http://localhost:8000/api/query/posts/simple?subreddits=webdev,java
 #### Complex Post Filtering
 ```bash
 # High-quality Python posts with multiple filters
-curl -X POST "http://localhost:8000/api/query/posts" \
+curl -X POST "https://trendit-supabase.onrender.com/api/query/posts" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["python", "programming"],
@@ -412,7 +412,7 @@ curl -X POST "http://localhost:8000/api/query/posts" \
   }'
 
 # Machine Learning research posts
-curl -X POST "http://localhost:8000/api/query/posts" \
+curl -X POST "https://trendit-supabase.onrender.com/api/query/posts" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["MachineLearning", "artificial"],
@@ -427,7 +427,7 @@ curl -X POST "http://localhost:8000/api/query/posts" \
   }'
 
 # Web development framework comparison
-curl -X POST "http://localhost:8000/api/query/posts" \
+curl -X POST "https://trendit-supabase.onrender.com/api/query/posts" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["webdev", "javascript", "reactjs"],
@@ -440,7 +440,7 @@ curl -X POST "http://localhost:8000/api/query/posts" \
   }'
 
 # Data science tutorials and guides
-curl -X POST "http://localhost:8000/api/query/posts" \
+curl -X POST "https://trendit-supabase.onrender.com/api/query/posts" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["datascience", "analytics", "statistics"],
@@ -454,7 +454,7 @@ curl -X POST "http://localhost:8000/api/query/posts" \
   }'
 
 # Author-specific filtering
-curl -X POST "http://localhost:8000/api/query/posts" \
+curl -X POST "https://trendit-supabase.onrender.com/api/query/posts" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["python"],
@@ -470,7 +470,7 @@ curl -X POST "http://localhost:8000/api/query/posts" \
 #### Comment Analysis Queries
 ```bash
 # High-quality technical discussions
-curl -X POST "http://localhost:8000/api/query/comments" \
+curl -X POST "https://trendit-supabase.onrender.com/api/query/comments" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["python", "programming"],
@@ -483,7 +483,7 @@ curl -X POST "http://localhost:8000/api/query/comments" \
   }'
 
 # Comments from specific posts
-curl -X POST "http://localhost:8000/api/query/comments" \
+curl -X POST "https://trendit-supabase.onrender.com/api/query/comments" \
   -H "Content-Type: application/json" \
   -d '{
     "post_ids": ["abc123", "def456"],
@@ -494,7 +494,7 @@ curl -X POST "http://localhost:8000/api/query/comments" \
   }'
 
 # Long-form technical comments
-curl -X POST "http://localhost:8000/api/query/comments" \
+curl -X POST "https://trendit-supabase.onrender.com/api/query/comments" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["MachineLearning"],
@@ -506,7 +506,7 @@ curl -X POST "http://localhost:8000/api/query/comments" \
   }'
 
 # Discussion thread analysis
-curl -X POST "http://localhost:8000/api/query/comments" \
+curl -X POST "https://trendit-supabase.onrender.com/api/query/comments" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["webdev", "javascript"],
@@ -521,7 +521,7 @@ curl -X POST "http://localhost:8000/api/query/comments" \
 #### User Analysis Queries
 ```bash
 # Experienced developers analysis
-curl -X POST "http://localhost:8000/api/query/users" \
+curl -X POST "https://trendit-supabase.onrender.com/api/query/users" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["python", "programming"],
@@ -531,7 +531,7 @@ curl -X POST "http://localhost:8000/api/query/users" \
   }'
 
 # High-karma machine learning contributors
-curl -X POST "http://localhost:8000/api/query/users" \
+curl -X POST "https://trendit-supabase.onrender.com/api/query/users" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["MachineLearning", "artificial"],
@@ -542,7 +542,7 @@ curl -X POST "http://localhost:8000/api/query/users" \
   }'
 
 # Active recent contributors
-curl -X POST "http://localhost:8000/api/query/users" \
+curl -X POST "https://trendit-supabase.onrender.com/api/query/users" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["webdev", "javascript"],
@@ -554,7 +554,7 @@ curl -X POST "http://localhost:8000/api/query/users" \
   }'
 
 # Specific user profiles
-curl -X POST "http://localhost:8000/api/query/users" \
+curl -X POST "https://trendit-supabase.onrender.com/api/query/users" \
   -H "Content-Type: application/json" \
   -d '{
     "usernames": ["spez", "kn0thing", "reddit"],
@@ -562,7 +562,7 @@ curl -X POST "http://localhost:8000/api/query/users" \
   }'
 
 # Premium/verified users
-curl -X POST "http://localhost:8000/api/query/users" \
+curl -X POST "https://trendit-supabase.onrender.com/api/query/users" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["python"],
@@ -575,23 +575,23 @@ curl -X POST "http://localhost:8000/api/query/users" \
 ### Query Examples
 ```bash
 # Get all query examples and documentation
-curl -X GET "http://localhost:8000/api/query/examples"
+curl -X GET "https://trendit-supabase.onrender.com/api/query/examples"
 
 # Pretty print query examples
-curl -s "http://localhost:8000/api/query/examples" | python -m json.tool
+curl -s "https://trendit-supabase.onrender.com/api/query/examples" | python -m json.tool
 ```
 
 ## Documentation Endpoints
 
 ```bash
 # OpenAPI specification
-curl -X GET "http://localhost:8000/openapi.json"
+curl -X GET "https://trendit-supabase.onrender.com/openapi.json"
 
 # Get just the paths
-curl -s "http://localhost:8000/openapi.json" | python -c "import sys,json; data=json.load(sys.stdin); [print(f'{method.upper()} {path}') for path, methods in data['paths'].items() for method in methods.keys()]"
+curl -s "https://trendit-supabase.onrender.com/openapi.json" | python -c "import sys,json; data=json.load(sys.stdin); [print(f'{method.upper()} {path}') for path, methods in data['paths'].items() for method in methods.keys()]"
 
 # Count endpoints by tag
-curl -s "http://localhost:8000/openapi.json" | python -c "
+curl -s "https://trendit-supabase.onrender.com/openapi.json" | python -c "
 import sys,json
 data=json.load(sys.stdin)
 tags = {}
@@ -609,26 +609,26 @@ for tag, count in tags.items():
 ```bash
 # Test all core endpoints
 echo "Testing core endpoints..."
-curl -s "http://localhost:8000/" > /dev/null && echo "✅ Root endpoint"
-curl -s "http://localhost:8000/health" > /dev/null && echo "✅ Health endpoint"
+curl -s "https://trendit-supabase.onrender.com/" > /dev/null && echo "✅ Root endpoint"
+curl -s "https://trendit-supabase.onrender.com/health" > /dev/null && echo "✅ Health endpoint"
 
 # Test scenario endpoints
 echo "Testing scenario endpoints..."
-curl -s "http://localhost:8000/api/scenarios/examples" > /dev/null && echo "✅ Scenarios examples"
-curl -s "http://localhost:8000/api/scenarios/1/subreddit-keyword-search?subreddit=python&keywords=test&date_from=2024-01-01&date_to=2024-12-31&limit=1" > /dev/null && echo "✅ Scenario 1"
+curl -s "https://trendit-supabase.onrender.com/api/scenarios/examples" > /dev/null && echo "✅ Scenarios examples"
+curl -s "https://trendit-supabase.onrender.com/api/scenarios/1/subreddit-keyword-search?subreddit=python&keywords=test&date_from=2024-01-01&date_to=2024-12-31&limit=1" > /dev/null && echo "✅ Scenario 1"
 
 # Test query endpoints
 echo "Testing query endpoints..."
-curl -s "http://localhost:8000/api/query/examples" > /dev/null && echo "✅ Query examples"
-curl -s "http://localhost:8000/api/query/posts/simple?subreddits=python&limit=1" > /dev/null && echo "✅ Simple query"
+curl -s "https://trendit-supabase.onrender.com/api/query/examples" > /dev/null && echo "✅ Query examples"
+curl -s "https://trendit-supabase.onrender.com/api/query/posts/simple?subreddits=python&limit=1" > /dev/null && echo "✅ Simple query"
 
 # Test collection endpoints
 echo "Testing collection endpoints..."
-curl -s "http://localhost:8000/api/collect/jobs" > /dev/null && echo "✅ List jobs endpoint"
+curl -s "https://trendit-supabase.onrender.com/api/collect/jobs" > /dev/null && echo "✅ List jobs endpoint"
 
 # Create and test a collection job
 echo "Testing collection job creation..."
-JOB_RESPONSE=$(curl -s -X POST "http://localhost:8000/api/collect/jobs" \
+JOB_RESPONSE=$(curl -s -X POST "https://trendit-supabase.onrender.com/api/collect/jobs" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["python"],
@@ -648,15 +648,15 @@ if echo "$JOB_RESPONSE" | grep -q "job_id"; then
   JOB_ID=$(echo "$JOB_RESPONSE" | python -c "import sys,json; print(json.load(sys.stdin)['job_id'])")
   sleep 2
   
-  curl -s "http://localhost:8000/api/collect/jobs/$JOB_ID/status" > /dev/null && echo "✅ Job status endpoint"
-  curl -s "http://localhost:8000/api/collect/jobs/$JOB_ID" > /dev/null && echo "✅ Job details endpoint"
+  curl -s "https://trendit-supabase.onrender.com/api/collect/jobs/$JOB_ID/status" > /dev/null && echo "✅ Job status endpoint"
+  curl -s "https://trendit-supabase.onrender.com/api/collect/jobs/$JOB_ID" > /dev/null && echo "✅ Job details endpoint"
 else
   echo "❌ Collection job creation failed"
 fi
 
 # Performance test
 echo "Performance testing..."
-time curl -s "http://localhost:8000/api/query/posts/simple?subreddits=python&keywords=fastapi&limit=5" > /dev/null
+time curl -s "https://trendit-supabase.onrender.com/api/query/posts/simple?subreddits=python&keywords=fastapi&limit=5" > /dev/null
 ```
 
 ## Complete Collection API Test Suite
@@ -670,7 +670,7 @@ echo "============================="
 
 # Test 1: List empty jobs
 echo "Test 1: List jobs (should be empty or existing jobs)"
-curl -s "http://localhost:8000/api/collect/jobs" | python -c "
+curl -s "https://trendit-supabase.onrender.com/api/collect/jobs" | python -c "
 import sys,json
 data=json.load(sys.stdin)
 print(f'✅ Found {data[\"total\"]} existing jobs')
@@ -678,7 +678,7 @@ print(f'✅ Found {data[\"total\"]} existing jobs')
 
 # Test 2: Create basic job
 echo -e "\nTest 2: Create basic collection job"
-BASIC_JOB=$(curl -s -X POST "http://localhost:8000/api/collect/jobs" \
+BASIC_JOB=$(curl -s -X POST "https://trendit-supabase.onrender.com/api/collect/jobs" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["python"],
@@ -696,7 +696,7 @@ echo "✅ Created basic job: $BASIC_JOB_ID"
 
 # Test 3: Create advanced job with keywords
 echo -e "\nTest 3: Create advanced job with keywords"
-ADVANCED_JOB=$(curl -s -X POST "http://localhost:8000/api/collect/jobs" \
+ADVANCED_JOB=$(curl -s -X POST "https://trendit-supabase.onrender.com/api/collect/jobs" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["python", "programming"],
@@ -720,7 +720,7 @@ echo -e "\nTest 4: Monitor job completion"
 for job_id in "$BASIC_JOB_ID" "$ADVANCED_JOB_ID"; do
   echo "Monitoring job $job_id..."
   for i in {1..10}; do
-    STATUS=$(curl -s "http://localhost:8000/api/collect/jobs/$job_id/status" | \
+    STATUS=$(curl -s "https://trendit-supabase.onrender.com/api/collect/jobs/$job_id/status" | \
       python -c "import sys,json; data=json.load(sys.stdin); print(data['status'])")
     
     if [ "$STATUS" = "completed" ] || [ "$STATUS" = "failed" ]; then
@@ -735,7 +735,7 @@ done
 
 # Test 5: Get job details
 echo -e "\nTest 5: Get job details"
-curl -s "http://localhost:8000/api/collect/jobs/$BASIC_JOB_ID" | python -c "
+curl -s "https://trendit-supabase.onrender.com/api/collect/jobs/$BASIC_JOB_ID" | python -c "
 import sys,json
 data=json.load(sys.stdin)
 print(f'✅ Job details: {data[\"status\"]} - {data[\"collected_posts\"]} posts, {data[\"collected_comments\"]} comments')
@@ -743,7 +743,7 @@ print(f'✅ Job details: {data[\"status\"]} - {data[\"collected_posts\"]} posts,
 
 # Test 6: List jobs with pagination
 echo -e "\nTest 6: Test pagination"
-curl -s "http://localhost:8000/api/collect/jobs?page=1&per_page=5" | python -c "
+curl -s "https://trendit-supabase.onrender.com/api/collect/jobs?page=1&per_page=5" | python -c "
 import sys,json
 data=json.load(sys.stdin)
 print(f'✅ Pagination: page 1, {len(data[\"jobs\"])} jobs returned')
@@ -751,7 +751,7 @@ print(f'✅ Pagination: page 1, {len(data[\"jobs\"])} jobs returned')
 
 # Test 7: Filter by status
 echo -e "\nTest 7: Filter by status"
-curl -s "http://localhost:8000/api/collect/jobs?status=completed" | python -c "
+curl -s "https://trendit-supabase.onrender.com/api/collect/jobs?status=completed" | python -c "
 import sys,json
 data=json.load(sys.stdin)
 completed_jobs = len(data['jobs'])
@@ -760,7 +760,7 @@ print(f'✅ Status filter: found {completed_jobs} completed jobs')
 
 # Test 8: Test invalid job ID
 echo -e "\nTest 8: Test invalid job ID (should return 404)"
-INVALID_RESPONSE=$(curl -s -w "HTTP_%{http_code}" "http://localhost:8000/api/collect/jobs/invalid-job-id")
+INVALID_RESPONSE=$(curl -s -w "HTTP_%{http_code}" "https://trendit-supabase.onrender.com/api/collect/jobs/invalid-job-id")
 if echo "$INVALID_RESPONSE" | grep -q "HTTP_404"; then
   echo "✅ Invalid job ID correctly returns 404"
 else
@@ -769,7 +769,7 @@ fi
 
 # Test 9: Test job cancellation (create a job to cancel)
 echo -e "\nTest 9: Test job cancellation"
-CANCEL_JOB=$(curl -s -X POST "http://localhost:8000/api/collect/jobs" \
+CANCEL_JOB=$(curl -s -X POST "https://trendit-supabase.onrender.com/api/collect/jobs" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["python"],
@@ -785,7 +785,7 @@ CANCEL_JOB=$(curl -s -X POST "http://localhost:8000/api/collect/jobs" \
 CANCEL_JOB_ID=$(echo "$CANCEL_JOB" | python -c "import sys,json; print(json.load(sys.stdin)['job_id'])")
 
 # Try to cancel it immediately
-CANCEL_RESPONSE=$(curl -s -X POST "http://localhost:8000/api/collect/jobs/$CANCEL_JOB_ID/cancel")
+CANCEL_RESPONSE=$(curl -s -X POST "https://trendit-supabase.onrender.com/api/collect/jobs/$CANCEL_JOB_ID/cancel")
 if echo "$CANCEL_RESPONSE" | grep -q "cancelled successfully"; then
   echo "✅ Job cancellation works"
 else
@@ -800,21 +800,21 @@ echo "Run this script to verify all Collection API functionality."
 
 ```bash
 # Extract just titles from posts
-curl -s "http://localhost:8000/api/query/posts/simple?subreddits=python&keywords=fastapi&limit=5" | \
+curl -s "https://trendit-supabase.onrender.com/api/query/posts/simple?subreddits=python&keywords=fastapi&limit=5" | \
   python -c "import sys,json; data=json.load(sys.stdin); [print(f'• {post[\"title\"]}') for post in data['results']]"
 
 # Get execution time and count
-curl -s "http://localhost:8000/api/query/posts/simple?subreddits=python&limit=3" | \
+curl -s "https://trendit-supabase.onrender.com/api/query/posts/simple?subreddits=python&limit=3" | \
   python -c "import sys,json; data=json.load(sys.stdin); print(f'Results: {data[\"count\"]}, Time: {data[\"execution_time_ms\"]:.2f}ms')"
 
 # Extract user karma information
-curl -s -X POST "http://localhost:8000/api/query/users" \
+curl -s -X POST "https://trendit-supabase.onrender.com/api/query/users" \
   -H "Content-Type: application/json" \
   -d '{"usernames": ["spez"], "limit": 1}' | \
   python -c "import sys,json; data=json.load(sys.stdin); user=data['results'][0]; print(f'{user[\"username\"]}: {user[\"total_karma\"]} karma')"
 
 # Count posts by subreddit
-curl -s "http://localhost:8000/api/query/posts/simple?subreddits=python,programming&limit=20" | \
+curl -s "https://trendit-supabase.onrender.com/api/query/posts/simple?subreddits=python,programming&limit=20" | \
   python -c "
 import sys,json
 data=json.load(sys.stdin)
@@ -832,19 +832,19 @@ for sub, count in subreddits.items():
 ### Summary and Recent Data
 ```bash
 # Get data collection summary
-curl -X GET "http://localhost:8000/api/data/summary"
+curl -X GET "https://trendit-supabase.onrender.com/api/data/summary"
 
 # Get recent posts from all collections
-curl -X GET "http://localhost:8000/api/data/posts/recent?limit=10"
+curl -X GET "https://trendit-supabase.onrender.com/api/data/posts/recent?limit=10"
 
 # Get recent comments from all collections  
-curl -X GET "http://localhost:8000/api/data/comments/recent?limit=15"
+curl -X GET "https://trendit-supabase.onrender.com/api/data/comments/recent?limit=15"
 ```
 
 ### Advanced Post Queries
 ```bash
 # Query posts from specific subreddits
-curl -X POST "http://localhost:8000/api/data/posts" \
+curl -X POST "https://trendit-supabase.onrender.com/api/data/posts" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["Python", "programming"],
@@ -854,7 +854,7 @@ curl -X POST "http://localhost:8000/api/data/posts" \
   }'
 
 # High-quality posts with keyword filtering
-curl -X POST "http://localhost:8000/api/data/posts" \
+curl -X POST "https://trendit-supabase.onrender.com/api/data/posts" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["Python"],
@@ -868,7 +868,7 @@ curl -X POST "http://localhost:8000/api/data/posts" \
   }'
 
 # Posts from specific collection jobs
-curl -X POST "http://localhost:8000/api/data/posts" \
+curl -X POST "https://trendit-supabase.onrender.com/api/data/posts" \
   -H "Content-Type: application/json" \
   -d '{
     "collection_job_ids": ["2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9"],
@@ -877,7 +877,7 @@ curl -X POST "http://localhost:8000/api/data/posts" \
   }'
 
 # Date range filtering
-curl -X POST "http://localhost:8000/api/data/posts" \
+curl -X POST "https://trendit-supabase.onrender.com/api/data/posts" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["MachineLearning"],
@@ -888,7 +888,7 @@ curl -X POST "http://localhost:8000/api/data/posts" \
   }'
 
 # Content type filtering
-curl -X POST "http://localhost:8000/api/data/posts" \
+curl -X POST "https://trendit-supabase.onrender.com/api/data/posts" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["webdev"],
@@ -900,7 +900,7 @@ curl -X POST "http://localhost:8000/api/data/posts" \
   }'
 
 # Author filtering
-curl -X POST "http://localhost:8000/api/data/posts" \
+curl -X POST "https://trendit-supabase.onrender.com/api/data/posts" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["python"],
@@ -914,7 +914,7 @@ curl -X POST "http://localhost:8000/api/data/posts" \
 ### Advanced Comment Queries
 ```bash
 # Query comments with keyword filtering
-curl -X POST "http://localhost:8000/api/data/comments" \
+curl -X POST "https://trendit-supabase.onrender.com/api/data/comments" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["Python", "programming"],
@@ -925,7 +925,7 @@ curl -X POST "http://localhost:8000/api/data/comments" \
   }'
 
 # Comments from specific posts
-curl -X POST "http://localhost:8000/api/data/comments" \
+curl -X POST "https://trendit-supabase.onrender.com/api/data/comments" \
   -H "Content-Type: application/json" \
   -d '{
     "post_ids": [1, 2, 3],
@@ -937,7 +937,7 @@ curl -X POST "http://localhost:8000/api/data/comments" \
   }'
 
 # Deep thread analysis
-curl -X POST "http://localhost:8000/api/data/comments" \
+curl -X POST "https://trendit-supabase.onrender.com/api/data/comments" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["MachineLearning"],
@@ -950,7 +950,7 @@ curl -X POST "http://localhost:8000/api/data/comments" \
   }'
 
 # Comments from specific collection jobs
-curl -X POST "http://localhost:8000/api/data/comments" \
+curl -X POST "https://trendit-supabase.onrender.com/api/data/comments" \
   -H "Content-Type: application/json" \
   -d '{
     "collection_job_ids": ["2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9"],
@@ -962,13 +962,13 @@ curl -X POST "http://localhost:8000/api/data/comments" \
 ### Analytics and Insights
 ```bash
 # Get analytics for a specific collection job
-curl -X GET "http://localhost:8000/api/data/analytics/2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9"
+curl -X GET "https://trendit-supabase.onrender.com/api/data/analytics/2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9"
 
 # Get analytics with pretty formatting
-curl -s "http://localhost:8000/api/data/analytics/2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9" | jq
+curl -s "https://trendit-supabase.onrender.com/api/data/analytics/2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9" | jq
 
 # Check if analytics exist for a job
-curl -s "http://localhost:8000/api/data/analytics/2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9" | \
+curl -s "https://trendit-supabase.onrender.com/api/data/analytics/2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9" | \
   python -c "import sys,json; data=json.load(sys.stdin); print('✅ Analytics available' if 'analytics' in data else '❌ No analytics')"
 ```
 
@@ -977,16 +977,16 @@ curl -s "http://localhost:8000/api/data/analytics/2359bab0-5a7a-4b1f-98fe-2db1c5
 ### Supported Formats Information
 ```bash
 # List all supported export formats
-curl -X GET "http://localhost:8000/api/export/formats"
+curl -X GET "https://trendit-supabase.onrender.com/api/export/formats"
 
 # Get format information with pretty output
-curl -s "http://localhost:8000/api/export/formats" | jq '.supported_formats'
+curl -s "https://trendit-supabase.onrender.com/api/export/formats" | jq '.supported_formats'
 ```
 
 ### Export Posts Data
 ```bash
 # Export posts as CSV
-curl -X POST "http://localhost:8000/api/export/posts/csv" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/posts/csv" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["Python"],
@@ -996,7 +996,7 @@ curl -X POST "http://localhost:8000/api/export/posts/csv" \
   }' --output posts_export.csv
 
 # Export high-quality posts as JSON
-curl -X POST "http://localhost:8000/api/export/posts/json" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/posts/json" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["Python", "programming"],
@@ -1007,7 +1007,7 @@ curl -X POST "http://localhost:8000/api/export/posts/json" \
   }' --output quality_posts.json
 
 # Export posts as JSONL for streaming processing
-curl -X POST "http://localhost:8000/api/export/posts/jsonl" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/posts/jsonl" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["MachineLearning"],
@@ -1017,7 +1017,7 @@ curl -X POST "http://localhost:8000/api/export/posts/jsonl" \
   }' --output ml_research.jsonl
 
 # Export posts as Parquet for analytics
-curl -X POST "http://localhost:8000/api/export/posts/parquet" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/posts/parquet" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["datascience", "analytics"],
@@ -1027,7 +1027,7 @@ curl -X POST "http://localhost:8000/api/export/posts/parquet" \
   }' --output posts_analytics.parquet
 
 # Export posts with advanced filtering
-curl -X POST "http://localhost:8000/api/export/posts/csv" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/posts/csv" \
   -H "Content-Type: application/json" \
   -d '{
     "collection_job_ids": ["2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9"],
@@ -1041,7 +1041,7 @@ curl -X POST "http://localhost:8000/api/export/posts/csv" \
 ### Export Comments Data
 ```bash
 # Export comments as CSV
-curl -X POST "http://localhost:8000/api/export/comments/csv" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/comments/csv" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["Python"],
@@ -1051,7 +1051,7 @@ curl -X POST "http://localhost:8000/api/export/comments/csv" \
   }' --output comments_export.csv
 
 # Export high-quality technical comments as JSON
-curl -X POST "http://localhost:8000/api/export/comments/json" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/comments/json" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["programming", "webdev"],
@@ -1062,7 +1062,7 @@ curl -X POST "http://localhost:8000/api/export/comments/json" \
   }' --output technical_comments.json
 
 # Export comment threads as JSONL
-curl -X POST "http://localhost:8000/api/export/comments/jsonl" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/comments/jsonl" \
   -H "Content-Type: application/json" \
   -d '{
     "post_ids": [1, 2, 3, 4, 5],
@@ -1073,7 +1073,7 @@ curl -X POST "http://localhost:8000/api/export/comments/jsonl" \
   }' --output comment_threads.jsonl
 
 # Export comments for data analysis
-curl -X POST "http://localhost:8000/api/export/comments/parquet" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/comments/parquet" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["MachineLearning", "artificial"],
@@ -1086,19 +1086,19 @@ curl -X POST "http://localhost:8000/api/export/comments/parquet" \
 ### Export Complete Job Data
 ```bash
 # Export complete job data as JSON (includes job metadata + posts + comments)
-curl -X GET "http://localhost:8000/api/export/job/2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9/json" \
+curl -X GET "https://trendit-supabase.onrender.com/api/export/job/2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9/json" \
   --output complete_job.json
 
 # Export job data as CSV (posts only)
-curl -X GET "http://localhost:8000/api/export/job/2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9/csv" \
+curl -X GET "https://trendit-supabase.onrender.com/api/export/job/2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9/csv" \
   --output job_posts.csv
 
 # Export job data as JSONL for processing
-curl -X GET "http://localhost:8000/api/export/job/2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9/jsonl" \
+curl -X GET "https://trendit-supabase.onrender.com/api/export/job/2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9/jsonl" \
   --output job_data.jsonl
 
 # Export job data as Parquet for analytics
-curl -X GET "http://localhost:8000/api/export/job/2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9/parquet" \
+curl -X GET "https://trendit-supabase.onrender.com/api/export/job/2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9/parquet" \
   --output job_analytics.parquet
 ```
 
@@ -1116,17 +1116,17 @@ POSTS_QUERY='{
 
 # 2. Export as multiple formats for different use cases
 echo "Exporting for spreadsheet analysis..."
-curl -X POST "http://localhost:8000/api/export/posts/csv" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/posts/csv" \
   -H "Content-Type: application/json" \
   -d "$POSTS_QUERY" --output analysis.csv
 
 echo "Exporting for API integration..."
-curl -X POST "http://localhost:8000/api/export/posts/json" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/posts/json" \
   -H "Content-Type: application/json" \
   -d "$POSTS_QUERY" --output integration.json
 
 echo "Exporting for data science..."
-curl -X POST "http://localhost:8000/api/export/posts/parquet" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/posts/parquet" \
   -H "Content-Type: application/json" \
   -d "$POSTS_QUERY" --output data_science.parquet
 
@@ -1138,7 +1138,7 @@ JOBS=("2359bab0-5a7a-4b1f-98fe-2db1c54eb5b9" "fdd1714e-2f34-4134-bad9-8625581ebc
 
 for job_id in "${JOBS[@]}"; do
   echo "Exporting job: $job_id"
-  curl -s -X GET "http://localhost:8000/api/export/job/$job_id/csv" \
+  curl -s -X GET "https://trendit-supabase.onrender.com/api/export/job/$job_id/csv" \
     --output "job_${job_id:0:8}.csv"
   echo "✅ Exported job_${job_id:0:8}.csv"
 done
@@ -1155,7 +1155,7 @@ ls -la *.csv *.json *.parquet 2>/dev/null | wc -l | \
 echo "Testing export formats..."
 
 # Test CSV export and verify structure
-curl -X POST "http://localhost:8000/api/export/posts/csv" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/posts/csv" \
   -H "Content-Type: application/json" \
   -d '{"subreddits": ["Python"], "limit": 3}' \
   --output test.csv
@@ -1168,7 +1168,7 @@ if [ -f "test.csv" ]; then
 fi
 
 # Test JSON export and verify structure
-curl -s -X POST "http://localhost:8000/api/export/posts/json" \
+curl -s -X POST "https://trendit-supabase.onrender.com/api/export/posts/json" \
   -H "Content-Type: application/json" \
   -d '{"subreddits": ["Python"], "limit": 2}' | \
   python -c "
@@ -1183,7 +1183,7 @@ except:
 "
 
 # Test JSONL export
-curl -s -X POST "http://localhost:8000/api/export/posts/jsonl" \
+curl -s -X POST "https://trendit-supabase.onrender.com/api/export/posts/jsonl" \
   -H "Content-Type: application/json" \
   -d '{"subreddits": ["Python"], "limit": 2}' | \
   python -c "
@@ -1203,30 +1203,30 @@ except:
 ### Service Status and Configuration
 ```bash
 # Check sentiment analysis availability and configuration
-curl -X GET "http://localhost:8000/api/sentiment/status"
+curl -X GET "https://trendit-supabase.onrender.com/api/sentiment/status"
 
 # Test sentiment analysis with sample data
-curl -X GET "http://localhost:8000/api/sentiment/test"
+curl -X GET "https://trendit-supabase.onrender.com/api/sentiment/test"
 ```
 
 ### Single Text Analysis
 ```bash
 # Analyze sentiment of a single text
-curl -X POST "http://localhost:8000/api/sentiment/analyze" \
+curl -X POST "https://trendit-supabase.onrender.com/api/sentiment/analyze" \
   -H "Content-Type: application/json" \
   -d '{
     "text": "I absolutely love this new feature! It works perfectly and makes everything so much easier."
   }'
 
 # Analyze a negative sentiment text
-curl -X POST "http://localhost:8000/api/sentiment/analyze" \
+curl -X POST "https://trendit-supabase.onrender.com/api/sentiment/analyze" \
   -H "Content-Type: application/json" \
   -d '{
     "text": "This is terrible. I hate how complicated and broken everything is."
   }'
 
 # Analyze neutral content
-curl -X POST "http://localhost:8000/api/sentiment/analyze" \
+curl -X POST "https://trendit-supabase.onrender.com/api/sentiment/analyze" \
   -H "Content-Type: application/json" \
   -d '{
     "text": "The documentation explains the basic installation process and configuration options."
@@ -1236,7 +1236,7 @@ curl -X POST "http://localhost:8000/api/sentiment/analyze" \
 ### Batch Text Analysis
 ```bash
 # Analyze multiple texts in one request
-curl -X POST "http://localhost:8000/api/sentiment/analyze-batch" \
+curl -X POST "https://trendit-supabase.onrender.com/api/sentiment/analyze-batch" \
   -H "Content-Type: application/json" \
   -d '{
     "texts": [
@@ -1249,7 +1249,7 @@ curl -X POST "http://localhost:8000/api/sentiment/analyze-batch" \
   }'
 
 # Analyze Reddit post-style content
-curl -X POST "http://localhost:8000/api/sentiment/analyze-batch" \
+curl -X POST "https://trendit-supabase.onrender.com/api/sentiment/analyze-batch" \
   -H "Content-Type: application/json" \
   -d '{
     "texts": [
@@ -1269,7 +1269,7 @@ The sentiment analysis service is automatically integrated into the data collect
 export OPENROUTER_API_KEY="your_api_key_here"
 
 # Create collection job - posts will automatically get sentiment scores
-curl -X POST "http://localhost:8000/api/collect/jobs" \
+curl -X POST "https://trendit-supabase.onrender.com/api/collect/jobs" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["python", "programming"],
@@ -1283,7 +1283,7 @@ curl -X POST "http://localhost:8000/api/collect/jobs" \
   }'
 
 # Query posts with sentiment scores
-curl -X POST "http://localhost:8000/api/data/posts" \
+curl -X POST "https://trendit-supabase.onrender.com/api/data/posts" \
   -H "Content-Type: application/json" \
   -d '{
     "limit": 10,
@@ -1292,7 +1292,7 @@ curl -X POST "http://localhost:8000/api/data/posts" \
   }' | jq '.results[] | {title: .title, sentiment_score: .sentiment_score, subreddit: .subreddit}'
 
 # Export data with sentiment analysis
-curl -X POST "http://localhost:8000/api/export/posts/csv" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/posts/csv" \
   -H "Content-Type: application/json" \
   -d '{
     "subreddits": ["python"],
@@ -1320,29 +1320,29 @@ curl -X POST "http://localhost:8000/api/export/posts/csv" \
 
 ```bash
 # Test invalid subreddit
-curl -X GET "http://localhost:8000/api/scenarios/1/subreddit-keyword-search?subreddit=invalidsubreddit&keywords=test&date_from=2024-01-01&date_to=2024-12-31"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/1/subreddit-keyword-search?subreddit=invalidsubreddit&keywords=test&date_from=2024-01-01&date_to=2024-12-31"
 
 # Test malformed JSON
-curl -X POST "http://localhost:8000/api/query/posts" \
+curl -X POST "https://trendit-supabase.onrender.com/api/query/posts" \
   -H "Content-Type: application/json" \
   -d '{"invalid": json}'
 
 # Test missing required parameters
-curl -X GET "http://localhost:8000/api/scenarios/1/subreddit-keyword-search?subreddit=python"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/1/subreddit-keyword-search?subreddit=python"
 
 # Test invalid date range
-curl -X GET "http://localhost:8000/api/scenarios/1/subreddit-keyword-search?subreddit=python&keywords=test&date_from=2024-12-31&date_to=2024-01-01"
+curl -X GET "https://trendit-supabase.onrender.com/api/scenarios/1/subreddit-keyword-search?subreddit=python&keywords=test&date_from=2024-12-31&date_to=2024-01-01"
 
 # Test invalid export format
-curl -X POST "http://localhost:8000/api/export/posts/invalid_format" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/posts/invalid_format" \
   -H "Content-Type: application/json" \
   -d '{"subreddits": ["Python"], "limit": 5}'
 
 # Test export with no matching data
-curl -X POST "http://localhost:8000/api/export/posts/csv" \
+curl -X POST "https://trendit-supabase.onrender.com/api/export/posts/csv" \
   -H "Content-Type: application/json" \
   -d '{"subreddits": ["NonExistentSubreddit"], "limit": 5}'
 
 # Test data query with invalid job ID
-curl -X GET "http://localhost:8000/api/data/analytics/invalid-job-id"
+curl -X GET "https://trendit-supabase.onrender.com/api/data/analytics/invalid-job-id"
 ```

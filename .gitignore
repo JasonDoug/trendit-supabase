@@ -267,3 +267,6 @@ docs/build/
 
 # Claude Code session files
 .claude/
+
+# Claude Rewind Tool
+.claude-rewind/
